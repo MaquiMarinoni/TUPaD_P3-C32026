@@ -4,47 +4,128 @@
     <meta charset="UTF-8">
     <title>Panel de Control</title>
 </head>
+
 <body>
 
-    <h1>Panel de Administración</h1>
-    <p>Bienvenido. Aquí podés ver y agregar productos.</p>
-    
-    <a href="index.html">Volver a la tienda</a>
+    <header>
+        <h1>Panel de Administración</h1>
+        <p>Gestiona aquí tus productos.</p>
+        <a href="index.html">Volver a la tienda</a>
+        <a href="sesion.html">Cerrar sesión</a>
+    </header>
 
     <hr>
 
     <h2>Productos Actuales</h2>
     <table border="1">
-        <tr>
-            <th>Nombre</th>
-            <th>Precio</th>
-        </tr>
-        <tr>
-            <td>Hamburguesa Triple</td>
-            <td>$25000</td>
-        </tr>
-        <tr>
-            <td>Pizza Muzzarella</td>
-            <td>$18000</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>001</td>
+                <td><img src="img/simple.jpg" alt="Hamburguesa Simple" width="50"></td>
+                <td>Clásica Simple</td>
+                <td>Simples</td>
+                <td><strong>$15000</strong></td>
+                <td>20</td>
+                <td><button>Editar</button> <button>Eliminar</button></td>
+            </tr>
+            
+            <tr>
+                <td>002</td>
+                <td><img src="img/doble.jpg" alt="Doble Cheddar" width="50"></td>
+                <td>Doble Cheddar</td>
+                <td>Dobles</td>
+                <td><strong>$22000</strong></td>
+                <td>15</td>
+                <td><button>Editar</button> <button>Eliminar</button></td>
+            </tr>
+
+            <tr>
+                <td>003</td>
+                <td><img src="img/especial.jpg" alt="Especial Blue" width="50"></td>
+                <td>Especial Blue Cheese</td>
+                <td>Especiales</td>
+                <td><strong>$28000</strong></td>
+                <td>4</td> 
+                <td><button>Editar</button> <button>Eliminar</button></td>
+            </tr>
+
+            <tr>
+                <td>004</td>
+                <td><img src="img/simple-completa.jpg" alt="Hamburguesa Completa" width="50"></td>
+                <td>Clásica Completa</td>
+                <td>Simples</td>
+                <td><strong>$16500</strong></td>
+                <td>25</td>
+                <td><button type="button">Editar</button> <button type="button">Eliminar</button></td>
+            </tr>
+
+            <tr>
+                <td>005</td>
+                <td><img src="img/double-mac.jpg" alt="Double Mac" width="50"></td>
+                <td>Double Mac Style</td>
+                <td>Dobles</td>
+                <td><strong>$24500</strong></td>
+                <td>18</td>
+                <td><button type="button">Editar</button> <button type="button">Eliminar</button></td>
+            </tr>
+
+            <tr>
+                <td>006</td>
+                <td><img src="img/tropical.jpg" alt="Hamburguesa Tropical" width="50"></td>
+                <td>La Tropical Ciruela</td>
+                <td>Especiales</td>
+                <td><strong>$31000</strong></td>
+                <td>5</td>
+                <td><button type="button">Editar</button> <button type="button">Eliminar</button></td>
+            </tr>
+        </tbody>
     </table>
 
     <hr>
 
-    <h2>Cargar nuevo producto</h2>
+    <h4>Carga rápida de producto</h4>
     <form>
         <p>Nombre del producto:</p>
-        <input type="text">
+        <input type="text" placeholder="Ej: Hamburguesa Simple">
+
+        <p>Categoría:</p>
+        <select>
+            <option value="hsimples">Simples</option>
+            <option value="hdobles">Dobles</option>
+            <option value="hespecial">Especiales</option>
+        </select>
+
+        <p>Imagen del producto:</p>
+        <input type="file" accept="image/*">
 
         <p>Precio:</p>
         <input type="number">
 
         <p>Descripción:</p>
-        <textarea></textarea>
+        <textarea placeholder="Ingresar detalles del producto"></textarea>
 
         <br><br>
-        <button type="submit">Guardar</button>
+        <button type="submit">Guardar producto</button>
+        <button type="reset">Limpiar formulario</button>
     </form>
+
+    <hr>
+
+    <footer>
+        <p>Panel de Administración - Food Store v1.0</p>
+        <p>Soporte: <a href="mailto:soporte@foodstore.com">soporte@foodstore.com</a></p>
+    </footer>
 
 </body>
 </html>
