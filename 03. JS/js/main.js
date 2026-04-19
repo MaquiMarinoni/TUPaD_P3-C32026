@@ -70,3 +70,26 @@ const filtrarProductos = (categoriaSeleccionada) => {
 // EJECUCION - NO PUEDE FALTAR!!!
 cargarCategorias();
 renderizarProductos(productos);
+
+// ------------------------------------------------------------------------------------------------
+
+// CONFIGURACION BOTON "BUSCAR" DEL ¿Que te gustaria comer hoy?
+// 1. Atrapamos el formulario y el input
+const formulario = document.getElementById("formulario-busqueda");
+const inputBusqueda = document.getElementById("buscarProducto");
+
+// 2. Escuchamos cuando el usuario hace clic en "Buscar"
+formulario.addEventListener("submit", (e) => {
+    e.preventDefault(); // EVITA que la página se recargue (¡Fundamental!) 
+    
+    const textoUsuario = inputBusqueda.value.toLowerCase(); // Pasamos todo a minúsculas para que sea más fácil comparar
+
+    // 3. Filtramos los productos por NOMBRE o DESCRIPCIÓN
+    const productosEncontrados = productos.filter(p => 
+        p.nombre.toLowerCase().includes(textoUsuario) || 
+        p.descripcion.toLowerCase().includes(textoUsuario)
+    );
+
+    // 4. Los mostramos en pantalla usando la función que ya creamos
+    renderizarProductos(productosEncontrados);
+});
