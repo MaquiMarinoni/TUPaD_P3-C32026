@@ -93,3 +93,40 @@ formulario.addEventListener("submit", (e) => {
     // 4. Los mostramos en pantalla usando la función que ya creamos
     renderizarProductos(productosEncontrados);
 });
+
+// ------------------------------------------------------------------------------------------------
+
+// CONFIGURACION BOTON "mostrar todos" DEL ¿Que te gustaria comer hoy?
+
+// 1. Atrapamos el nuevo botón de "Ver todos"
+const btnVerTodos = document.getElementById("btn-ver-todos");
+
+// 2. Modificamos el evento del formulario para incluir el mensaje de "No encontrado"
+formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
+    
+    const textoUsuario = inputBusqueda.value.toLowerCase();
+
+    const productosEncontrados = productos.filter(p => 
+        p.nombre.toLowerCase().includes(textoUsuario) || 
+        p.descripcion.toLowerCase().includes(textoUsuario)
+    );
+
+    // Lógica para el mensaje de "No se encontraron productos"
+    if (productosEncontrados.length === 0) {
+        contenedorProductos.innerHTML = `
+            <div class="mensaje-error">
+                <p> Lo sentimos, no encontramos productos que coincidan con "${inputBusqueda.value}".</p>
+                <p>¡Probá con otra palabra!</p>
+            </div>
+        `;
+    } else {
+        renderizarProductos(productosEncontrados);
+    }
+});
+
+// 3. Evento para el botón "Mostrar Todos"
+btnVerTodos.addEventListener("click", () => {
+    inputBusqueda.value = ""; // Limpiamos el texto que haya escrito el usuario
+    renderizarProductos(productos); // Volvemos a mostrar la lista completa original 
+});
