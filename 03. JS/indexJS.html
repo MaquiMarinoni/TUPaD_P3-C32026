@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food store</title>
+</head>
+
+<body>
+    <header>
+        <h1>Food store</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Mis pedidos</a></li>
+                <li><a href="#">Carrito</a></li>
+                <li><a href="admin.html">Panel admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <hr>
+    
+    <!-- aside: barra lateral -->
+    <aside> 
+        <h2>Categorias</h2>
+        <ul id="lista-categorias">
+        </ul>
+    </aside>
+
+
+    <main>
+        <section>
+            <!-- Campo de busqueda de producto + boton  -->
+            <form>
+                <label for="buscarProducto">¿Qué te gustaría comer hoy?</label>
+                <input id="buscarProducto" type="text" placeholder="Ej: hamburguesa doble, cheddar, bacon, etc.">
+                <button type="submit">Buscar</button>
+            </form>
+        </section>
+
+        <section>
+            <!-- grilla de productos -->
+            <h2>Productos Destacados</h2>
+            <section id="contenedor-productos"></section>
+
+        </section>
+    </main>
+
+    <hr>
+
+    <footer>
+        <p>&copy; 2026 Food Store. Todos los derechos reservados.</p>
+        <p>Contactanos: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+    </footer>
+    <script src="./js/data.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
