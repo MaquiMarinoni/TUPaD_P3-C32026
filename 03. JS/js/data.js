@@ -8,7 +8,7 @@ const productos = [
         nombre: "Tropical Ciruela",
         precio: 31000,
         descripcion: "Un toque dulce y exótico para los valientes.",
-        imagen: "/03. JS/assets/especial-tropical.png",
+        imagen: "./assets/especial-tropical.png",
         categoria: "Hamburguesas especiales"
     },
     {
@@ -16,7 +16,7 @@ const productos = [
         nombre: "Double Mac Style",
         precio: 24500,
         descripcion: "El sabor clásico que ya conocés, pero doble.",
-        imagen: "/03. JS/assets/doble-macstyle.png",
+        imagen: "./assets/doble-macstyle.png",
         categoria: "Hamburguesas dobles"
     },
     {
@@ -24,7 +24,7 @@ const productos = [
         nombre: "Clásica Completa",
         precio: 16500,
         descripcion: "Lechuga, tomate, jamón, queso y huevo.",
-        imagen: "/03. JS/assets/simple-clasica.png",
+        imagen: "./assets/simple-clasica.png",
         categoria: "Hamburguesas simples"
     },
     {
@@ -32,7 +32,7 @@ const productos = [
         nombre: "Especial Blue Cheese",
         precio: 28000,
         descripcion: "Para los amantes del sabor intenso del queso azul.",
-        imagen: "/03. JS/assets/especial-blue.png",
+        imagen: "./assets/especial-blue.png",
         categoria: "Hamburguesas especiales"
     },
     {
@@ -40,7 +40,7 @@ const productos = [
         nombre: "Doble Cheddar",
         precio: 22000,
         descripcion: "Mucho cheddar fundido y doble carne.",
-        imagen: "/03. JS/assets/doble-cheddar.png",
+        imagen: "./assets/doble-cheddar.png",
         categoria: "Hamburguesas dobles"
     },
     {
@@ -48,7 +48,7 @@ const productos = [
         nombre: "Clásica Simple",
         precio: 15000,
         descripcion: "La hamburguesa de toda la vida, simple y efectiva.",
-        imagen: "/03. JS/assets/simple-clasica.png",
+        imagen: "./assets/simple-clasica.png",
         categoria: "Hamburguesas simples"
     }
 ];
