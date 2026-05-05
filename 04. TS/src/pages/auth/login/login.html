@@ -10,10 +10,19 @@
         <form id="form"> <h2>Iniciar Sesión</h2>
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Contraseña" required>
+
+            <div>
+            <label for="rol">Rol</label>
+                <select name="rol" id="rol">
+                    <option value="">Seleccione un rol</option>
+                    <option value="client">Cliente</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
             
             <button type="submit">Ingresar</button>
             
-            <p>¿No tienes cuenta? <a href="/src/pages/auth/registro/index.html">Regístrate aquí</a></p>
+            <p>¿No tienes cuenta? <a href="/src/pages/auth/registro/registro.html">Regístrate aquí</a></p>
             <p><a href="/index.html">Volver al inicio</a></p>
         </form>
     </main>
