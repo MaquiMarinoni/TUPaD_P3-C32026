@@ -1,0 +1,233 @@
+/* 1. Variables CSS */
+:root {
+    --color-primario: #ff6347;
+    --color-fondo: #f0f0f0;
+    --color-texto: #333;
+    --color-blanco: #fff;
+    --color-borde: #ddd;
+    --color-focus: #ff4500;
+}
+
+/* 2. Reset y Centrado con Flexbox */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--color-fondo);
+    justify-content: center;
+    min-height: 100vh; /* Centrado vertical en toda la pantalla */
+}
+
+/* 3. Contenedor del Formulario (Modelo de Caja) */
+.login-container {
+    background-color: var(--color-blanco);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    border: 1px solid var(--color-borde);
+}
+
+/* 4. Títulos */
+h1 {
+    color: var(--color-primario);
+    text-transform: uppercase; /* Requisito: Título en mayúsculas */
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+h2 {
+    color: var(--color-texto);
+    font-weight: normal;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+}
+
+/* 5. Estilización de Inputs y Labels */
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: var(--color-texto);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-borde);
+    border-radius: 5px;
+    box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+    font-size: 1rem;
+}
+
+/* Requisito: Aplicar :focus en los inputs */
+input:focus {
+    outline: none;
+    border-color: var(--color-focus);
+    box-shadow: 0 0 5px rgba(255, 69, 0, 0.2);
+}
+
+/* 6. Botón de Ingreso */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transición suave */
+    margin-top: 10px;
+}
+
+/* Requisito: Aplicar :hover en el botón */
+button:hover {
+    background-color: var(--color-focus);
+}
+
+/* 7. Enlace inferior */
+.register-link {
+    display: block;
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: var(--color-texto);
+    text-decoration: none;
+
+}
+
+.register-link a {
+    color: var(--color-primario);
+    text-decoration: none;
+    font-weight: bold;
+
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+
+}
+
+/* 8. grid para productos */
+#contenedor-productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* 9. formato de tarjeta para cada producto */
+
+.tarjeta-producto {
+    background-color: var(--color-blanco);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--color-borde);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.tarjeta-producto:hover {
+    transform: translateY(-5px); /* Pequeño salto al pasar el mouse */
+}
+
+.tarjeta-producto img {
+    border-radius: 8px;
+    object-fit: cover; /* Para que las fotos no se deformen */
+    margin-bottom: 15px;
+}
+
+
+/* 10.ordenamos los productos por un lado y las categorias por otro */
+
+#layout {
+    display: flex;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+aside {
+    flex: 1; /* Ocupa menos espacio */
+    max-width: 250px;
+}
+
+main {
+    flex: 3; /* Ocupa más espacio para los productos */
+}
+
+
+/* 11.Formato a las cateogrias */
+
+#lista-categorias {
+    list-style: none; /* Quitamos los puntos de la lista */
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Las mantenemos una debajo de otra */
+    gap: 10px;
+}
+
+.enlace-categoria {
+    display: block;
+    padding: 12px 15px;
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    text-decoration: none;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Efecto al pasar el mouse */
+.enlace-categoria:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border-color: var(--color-primario);
+    transform: translateX(5px); /* Pequeño desplazamiento a la derecha */
+}
+
+/* 12. formato a los botos BUSCAR y MOSTRAR TODOS*/
+
+#formulario-busqueda {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra todo el contenido del form */
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Contenedor para los dos botones (si no lo tenés, podés envolverlos en un div en el HTML) */
+.botones-busqueda-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Ajuste específico para que los botones de búsqueda no sean gigantes */
+#formulario-busqueda button {
+    width: auto; /* Ya no ocupan el 100% */
+    padding: 10px 25px;
+    min-width: 150px; /* Tamaño mínimo para que se vean uniformes */
+    margin: 0; /* Quitamos márgenes extra */
+}
