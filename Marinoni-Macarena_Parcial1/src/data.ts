@@ -1,5 +1,12 @@
 // Definicion de las categorías 
-export const categorias = ["Hamburguesas simples", "Hamburguesas dobles", "Hamburguesas especiales", ];
+
+// import { ICategory } from "../types/categoria";
+
+export const categorias: ICategory[] = [
+    { id: 1, nombre: "Hamburguesas simples" },
+    { id: 2, nombre: "Hamburguesas dobles" },
+    { id: 3, nombre: "Hamburguesas especiales" }
+];
 
 // Definicion de lista de productos (esto es un Array de Objetos)
 export const productos = [

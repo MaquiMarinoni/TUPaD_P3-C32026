@@ -1,49 +1,41 @@
 import type { IUser } from "../../../types/IUser";
 import type { Rol } from "../../../types/Rol";
 import { navigate } from "../../../utils/navigate";
+// IMPORTAMOS EL SERVICIO
+import { getUsers, saveLoggedUser } from "../../../utils/localStorage";
 
-/**
- * SELECCIÓN DE ELEMENTOS
- * Usamos 'as' (Type Assertion) para decirle a TS exactamente qué tipo de elemento es.
- */
 const form = document.getElementById("form") as HTMLFormElement;
 const inputEmail = document.getElementById("email") as HTMLInputElement;
-const inputPassword = document.getElementById("password") as HTMLInputElement; // Descomentamos esto
+const inputPassword = document.getElementById("password") as HTMLInputElement;
 
-/**
- * LÓGICA DE LOGIN ADAPTADA
- */
 form.addEventListener("submit", (e: SubmitEvent) => {
     e.preventDefault();
 
     const valueEmail = inputEmail.value;
     const valuePassword = inputPassword.value;
 
-    // 1. Buscamos en nuestra "Base de Datos" (LocalStorage)
-    const dataLow = localStorage.getItem('users');
-    const usuarios: any[] = dataLow ? JSON.parse(dataLow) : [];
+    // USAMOS EL SERVICIO
+    const usuarios = getUsers(); 
 
-    // 2. Verificamos credenciales reales
+    // Verificamos credenciales
     const usuarioValidado = usuarios.find(u => u.email === valueEmail && u.password === valuePassword);
 
     if (usuarioValidado) {
-        // 3. Si existe, creamos el objeto de sesión siguiendo la interfaz de la cátedra
         const user: IUser = {
             email: valueEmail,
-            role: usuarioValidado.rol as Rol, // Usamos el rol que viene de la base de datos
+            role: usuarioValidado.role as Rol, // Asegúrate de que en 'users' se guarde como 'role'
             loggedIn: true,
         };
 
-        // 4. Guardamos la sesión (como pedía el repo base)
-        localStorage.setItem("userData", JSON.stringify(user));
+        // USAMOS EL SERVICIO
+        saveLoggedUser(user);
 
-        // 5. Redirección usando la función 'navigate' de la cátedra
         if (user.role === "admin") {
-            navigate("/src/pages/admin/home/home.html");
+            navigate("/src/pages/admin/home/index.html");
         } else {
-            navigate("/src/pages/client/home/home.html");
+            navigate("/src/pages/client/home/index.html");
         }
     } else {
-        alert("Usuario o contraseña incorrectos. ¿Ya te registraste?");
+        alert("Usuario o contraseña incorrectos.");
     }
 });

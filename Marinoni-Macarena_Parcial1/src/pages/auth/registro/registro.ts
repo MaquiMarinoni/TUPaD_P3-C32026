@@ -21,7 +21,7 @@ formRegistro?.addEventListener('submit', (e: Event) => {
     const nuevoUsuario: IUser = {
         email,
         password,
-        rol: 'client' // Todos los registros nuevos arrancan como clientes
+        role: 'client' // Todos los registros nuevos arrancan como clientes
     };
 
     /**
