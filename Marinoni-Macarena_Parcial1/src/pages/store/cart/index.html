@@ -2,24 +2,39 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Carrito - Food Store</title>
+    <title>Tu Carrito - Food Store</title>
     <link rel="stylesheet" href="../../../css/styles.css">
 </head>
-<body>
-    <header>
-        <h1>Carrito de productos</h1>
-        <a href="/index.html">Volver a la Tienda</a>
-        <button id="btn-clear-cart">Vaciar Carrito</button>
+<body class="cart-page">
+
+    <header class="main-header">
+        <div class="header-container">
+            <h1 class="logo">Food<strong>Store</strong></h1>
+            <a href="../home/index.html" class="nav-link">Seguir comprando</a>
+        </div>
     </header>
 
-    <main class="container">
-        <ul id="cart-items"></ul>
-        
-        <div id="cart-total-container">
-            <h3>Total a pagar: $<span id="total-price">0</span></h3>
+    <main class="cart-container">
+        <div id="empty-cart-view" class="empty-state">
+            <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #ccc;"></i>
+            <h2>Tu carrito está vacío</h2>
+            <p>Aún no has agregado nada a tu carrito.</p>
+            <a href="../home/index.html" class="btn-primary">Ver Catálogo</a>
         </div>
 
-        <p id="empty-cart-msg" style="display: none;">Tu carrito está vacío. ¡Ve a la tienda a buscar algo rico!</p>
+        <div id="full-cart-view" class="full-state" style="display: none;">
+            <h2>Tu Pedido</h2>
+            <div id="cart-items" class="cart-items-list">
+                </div>
+            
+            <div class="cart-summary">
+                <h3>Total: $<span id="total-price">0</span></h3>
+                <div class="cart-actions">
+                    <button id="btn-clear-cart" class="btn-secondary">Vaciar Carrito</button>
+                    <button class="btn-primary">Finalizar Compra</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script type="module" src="./cart.ts"></script>

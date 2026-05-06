@@ -11,5 +11,5 @@ export interface Product {
   stock?: number;
   imagen: string;
   disponible?: boolean;
-  categorias?: ICategory[];
+  categorias: ICategory[];
 }

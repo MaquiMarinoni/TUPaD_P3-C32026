@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo - Food Store</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="store-page"> <header class="main-header">
+        <div class="header-container">
+            <h1 class="logo">Food<strong>Store</strong></h1>
+            <nav class="main-nav">
+                <a href="../cart/index.html" class="nav-link nav-cart">
+                    Catálogo
+                </a>
+                <a href="../cart/index.html" class="nav-link nav-cart">
+                    Carrito <span id="cart-count" class="cart-badge">0</span>
+                </a>
+                <button id="btn-logout" class="btn-logout" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="store-container">
+        <aside class="sidebar">
+            <h3 class="sidebar-title">CATEGORÍAS</h3>
+            <ul id="lista-categorias" class="category-list">
+                </ul>
+        </aside>
+
+        <section class="main-content">
+            <div class="search-bar-container">
+                <form id="formulario-busqueda" class="search-form">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="buscarProducto" placeholder="Buscar productos...">
+                </form>
+            </div>
+
+            <div id="contenedor-productos" class="product-grid">
+                </div>
+        </section>
+    </main>
+
+    <script type="module" src="../../../main.ts"></script>
+</body>
+</html>
