@@ -9,16 +9,17 @@
     <header>
         <h1>Carrito de productos</h1>
         <a href="/index.html">Volver a la Tienda</a>
+        <button id="btn-clear-cart">Vaciar Carrito</button>
     </header>
 
-    <main>
-        <div id="cart-container">
-            <ul id="cart-items"></ul>
-            <div id="cart-total-container">
-                <h3>Total: $<span id="total-price">0</span></h3>
-            </div>
+    <main class="container">
+        <ul id="cart-items"></ul>
+        
+        <div id="cart-total-container">
+            <h3>Total a pagar: $<span id="total-price">0</span></h3>
         </div>
-        <p id="empty-cart-msg" style="display: none;">Tu carrito está vacío.</p>
+
+        <p id="empty-cart-msg" style="display: none;">Tu carrito está vacío. ¡Ve a la tienda a buscar algo rico!</p>
     </main>
 
     <script type="module" src="./cart.ts"></script>

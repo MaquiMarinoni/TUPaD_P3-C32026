@@ -234,3 +234,15 @@ main {
 
 #cart-items { list-style: none; padding: 0; }
 #cart-items li { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd; }
+
+#cart-items { list-style: none; padding: 0; }
+.cart-item { 
+    display: flex; 
+    justify-content: space-between; 
+    padding: 15px; 
+    border-bottom: 1px solid #ddd; 
+    background: white;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+#cart-total-container { text-align: right; margin-top: 20px; font-size: 1.2rem; }

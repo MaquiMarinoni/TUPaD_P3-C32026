@@ -57,3 +57,14 @@ export const addToCart = (product: Product): void => {
     saveCart(cart);
     alert(`${product.nombre} agregado al carrito!`);
 };
+
+export const clearCart = (): void => {
+    localStorage.removeItem("cart");
+};
+
+export const removeFromCart = (id: number): void => {
+    const cart = getCart();
+    // Filtramos el array: nos quedamos con todos menos el que tiene el ID que queremos borrar
+    const newCart = cart.filter(item => item.id !== id);
+    saveCart(newCart);
+};
