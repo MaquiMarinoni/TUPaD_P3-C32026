@@ -58,7 +58,7 @@ const renderCart = () => {
         const itemCard = document.createElement("div");
         itemCard.className = "cart-item-card";
         itemCard.innerHTML = `
-            <img src="../../../assets/pizza.jpg" alt="${item.nombre}" class="item-img-mini">
+            <img src="../../../assets/${item.imagen}" alt="${item.nombre}" class="item-img-mini">
             <div class="item-info-main">
                 <h4>${item.nombre}</h4>
                 <p class="item-cat-tag">Producto</p>

@@ -71,7 +71,7 @@ const renderizarProductos = (productosParaMostrar: Product[]) => {
         const card = document.createElement("div");
         card.className = "producto-card";
         card.innerHTML = `
-            <img src="../../../assets/pizza.jpg" alt="${producto.nombre}">
+            <img src="../../../assets/${producto.imagen}" alt="${producto.nombre}">
             <div class="card-body">
                 <div class="card-text">
                     <h4>${producto.nombre}</h4>
