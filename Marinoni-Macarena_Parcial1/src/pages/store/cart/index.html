@@ -5,6 +5,7 @@
     <title>Tu Carrito - Food Store</title>
     <link rel="stylesheet" href="../../../css/styles.css">
 </head>
+
 <body class="cart-page">
 
     <header class="main-header">
@@ -14,29 +15,56 @@
         </div>
     </header>
 
-    <main class="cart-container">
-        <div id="empty-cart-view" class="empty-state">
-            <i class="fas fa-shopping-cart" style="font-size: 3rem; color: #ccc;"></i>
-            <h2>Tu carrito está vacío</h2>
-            <p>Aún no has agregado nada a tu carrito.</p>
-            <a href="../home/index.html" class="btn-primary">Ver Catálogo</a>
-        </div>
+    <main class="cart-main-container">
+        <h1 class="cart-title-main">Mi Carrito</h1>
 
-        <div id="full-cart-view" class="full-state" style="display: none;">
-            <h2>Tu Pedido</h2>
-            <div id="cart-items" class="cart-items-list">
+        <div class="cart-layout">
+            <section class="cart-items-list" id="cart-items-container">
+                <div class="cart-item-card">
+                    <img src="../../../assets/pizza.jpg" alt="Producto" class="item-img-mini">
+                    <div class="item-info-main">
+                        <h4>Torta Rogel</h4>
+                        <p class="item-cat-tag">Postres</p>
+                        <p class="item-subtotal-text">Subtotal: <strong>$3.500</strong></p>
+                    </div>
+                    <div class="item-controls-wrapper">
+                        <div class="qty-selector">
+                            <button class="btn-qty">-</button>
+                            <span class="qty-num">1</span>
+                            <button class="btn-qty">+</button>
+                        </div>
+                        <button class="btn-delete-text">Eliminar</button>
+                    </div>
                 </div>
-            
-            <div class="cart-summary">
-                <h3>Total: $<span id="total-price">0</span></h3>
-                <div class="cart-actions">
-                    <button id="btn-clear-cart" class="btn-secondary">Vaciar Carrito</button>
-                    <button class="btn-primary">Finalizar Compra</button>
+            </section>
+
+            <aside class="cart-sidebar-summary">
+                <div class="summary-card-modern">
+                    <h3>Resumen</h3>
+                    <div class="summary-details">
+                        <div class="summary-line">
+                            <span>Subtotal</span>
+                            <span id="subtotal">$0</span>
+                        </div>
+                        <div class="summary-line total-big">
+                            <span>Total</span>
+                            <span id="total-final">$0</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-checkout-modern" disabled>Finalizar compra</button>
+                    <p class="checkout-warning">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        El checkout no está disponible en esta versión.
+                    </p>
+                    
+                    <button id="btn-vaciar" class="btn-clear-cart">Vaciar carrito</button>
                 </div>
-            </div>
+            </aside>
         </div>
     </main>
 
     <script type="module" src="./cart.ts"></script>
+
 </body>
 </html>
