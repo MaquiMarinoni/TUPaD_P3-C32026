@@ -2,22 +2,41 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro - Food Store</title>
-    <link rel="stylesheet" href="../../../../src/css/styles.css">
+    <title>Food Store - Crear Cuenta</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
 </head>
-<body>
-    <main>
-        <form id="form-registro"> 
+<body class="auth-page">
+
+    <div class="auth-container">
+        <header class="auth-header">
+            <h1>FOOD <strong>STORE</strong></h1>
             <h2>Crear Cuenta</h2>
-            <input type="email" name="email" placeholder="Tu Email" required>
-            <input type="password" name="password" placeholder="Tu Contraseña" required>
-            
-            <button type="submit">Registrarme</button>
-            
-            <p>¿Ya tienes cuenta? <a href="/src/pages/auth/login/index.html">Inicia sesión aquí</a></p>
-            <p><a href="/index.html">Volver al inicio</a></p>
+        </header>
+
+        <form id="registro-form" class="auth-form">
+            <div class="form-group">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Mínimo 8 caracteres" required>
+            </div>
+
+            <button type="submit" class="btn-ingresar">REGISTRARSE</button>
         </form>
-    </main>
+
+        <footer class="auth-footer">
+            <p>¿Ya tienes cuenta? <a href="../login/index.html">Inicia sesión aquí</a></p>
+            <a href="../../../../index.html" class="back-link">Volver al inicio</a>
+        </footer>
+    </div>
 
     <script type="module" src="./registro.ts"></script>
 </body>

@@ -2,26 +2,69 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel de Control - Admin</title>
-    <link rel="stylesheet" href="../../../../src/css/styles.css">
+    <title>Food Store - Panel Admin</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    <header>
-        <h1>Panel de Administración</h1>
-        <nav>
-            <a href="/index.html">Volver a la Tienda</a>
-        </nav>
+<body class="admin-page">
+    
+    <header class="main-header">
+        <div class="header-container">
+            <a href="../../../../index.html" class="logo">Food<strong>Store</strong></a>
+            <nav class="main-nav">
+                <a href="../../../../index.html" class="nav-link">Inicio</a>
+                <a href="../../store/home/index.html" class="nav-link">Catalogo</a>
+            </nav>
+            <div class="header-actions">
+                <span class="user-role-badge">ADMIN</span>
+                <a href="../../../../index.html" class="nav-link logout-btn"><i class="fas fa-sign-out-alt"></i> Salir</a>
+            </div>
+        </div>
     </header>
 
-    <main>
-        <h2>Bienvenido, Administrador</h2>
-        <p>Desde aquí podrás gestionar los productos y pedidos.</p>
-        
-        <section id="gestion-productos">
-            <button id="btn-agregar">Añadir Nuevo Producto</button>
+    <main class="admin-main-container">
+        <header class="admin-content-header">
+            <div>
+                <h1>Gestión de Productos</h1>
+                <p>Añade, edita o elimina los productos de tu tienda.</p>
+            </div>
+            <button class="btn-primary" id="btn-nuevo-producto">
+                <i class="fas fa-plus"></i> Nuevo Producto
+            </button>
+        </header>
+
+        <section class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="../../../assets/simple-clasica.png" alt="Producto" class="table-img"></td>
+                        <td><strong>Simple Clásica</strong></td>
+                        <td>Hamburguesas</td>
+                        <td>$5.500</td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+            </table>
         </section>
     </main>
 
-    <script type="module" src="/src/main.ts"></script>
+    <footer class="main-footer">
+        <p>&copy; 2024 Food Store - Panel de Control Administrativo</p>
+    </footer>
+
 </body>
 </html>

@@ -2,76 +2,81 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food store</title>
-    <link rel="stylesheet" href="./src/css/styles.css">
+    <title>Food Store - Landing</title>
+    <link rel="stylesheet" href="src/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+<body class="landing-page">
+    <header class="main-header">
+        <div class="header-container">
+            <a href="/" class="logo">Food<strong>Store</strong></a>
+            
+            <nav class="main-nav">
+                <a href="/src/pages/auth/login/index.html" class="nav-link">Iniciar sesion</a>
+                <a href="#" class="nav-link">Mis Pedidos</a>
+                <a href="/src/pages/store/cart/index.html" class="nav-link">Carrito</a>
+                <a href="/src/pages/admin/home/index.html" class="nav-link">Panel Admin</a>
+            </nav>
 
-<body>
-    <header>
-        <h1>Food store</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="./src/pages/client/home/index.html">Mis pedidos</a></li>
-                <li><a href="./src/pages/store/cart/index.html">Carrito</a></li>
-                <li><a href="./src/pages/admin/home/index.html">Panel admin</a></li>
-                <li><a href="./src/pages/auth/login/index.html" id="btn-auth">Login</a></li>
-                <button id="btn-logout" style="display: none;">Cerrar Sesión</button>
-            </ul>
-        </nav>
+            <div class="header-search">
+                <form class="search-form">
+                    <input type="text" placeholder="¿Qué vas a comer hoy?">
+                </form>
+            </div>
+        </div>
     </header>
+    
+    <section class="hero-banner">
+        <h2>¡Bienvenidos a Food Store!</h2>
+        <p>Los mejores sabores en la puerta de tu casa.</p>
+    </section>
 
-    <hr>
-
-    <div id="layout">
-        <!-- aside: barra lateral -->
-        <aside> 
-            <h2>Categorias</h2>
-            <ul id="lista-categorias">
+    <main class="three-column-layout">
+        
+        <aside class="column-categories">
+            <h3 class="column-title">Categorías</h3>
+            <ul class="category-list">
+                <li><a href="#" class="enlace-categoria">Hamburguesas</a></li>
+                <li><a href="#" class="enlace-categoria">Pizzas</a></li>
+                <li><a href="#" class="enlace-categoria">Bebidas</a></li>
+                <li><a href="#" class="enlace-categoria">Postres</a></li>
             </ul>
         </aside>
 
-
-        <main>
-            <section>
-                <!-- Campo de busqueda de producto + boton  -->
-                <form id="formulario-busqueda">
-                    <label for="buscarProducto">¿Qué te gustaría comer hoy?</label>
-                    <input id="buscarProducto" type="text" placeholder="Ej: hamburguesa doble, cheddar, bacon, etc.">
-                    <div class="botones-busqueda-container">
-                        <button type="submit">Buscar</button>
-                        <button type="button" id="btn-ver-todos">Mostrar todos</button>
-                    </div>
-                </form>
-            </section>
-
-            <section>
-                <!-- grilla de productos -->
-                <!-- <h2>Productos Destacados</h2> -->
-                <!-- <section id="contenedor-productos"></section> -->
-                
-                <div style="text-align: center">
-                    <h2>¡Lo mejor en comida rápida!</h2>
-                    <p>Inicia sesión para comenzar a pedir.</p>
-                    <a href="/src/pages/auth/login/index.html">Ir al Login</a>
-                    <br><br>
-                    <a href="/src/pages/store/home/index.html">Ver Catálogo (Sin login)</a>
+        <section class="column-products">
+            <h3 class="column-title">Productos Destacados</h3>
+            <div class="product-grid">
+                <div class="producto-card">
+                    <img src="src/assets/simple-clasica.png" alt="Hamburguesa">
+                    <h4>Simple Clásica</h4>
+                    <p>$5500</p>
+                    <button class="btn-primary">Ver más</button>
                 </div>
+                <div class="producto-card">
+                    <img src="src/assets/doble-cheddar.png" alt="Hamburguesa">
+                    <h4>Doble Cheddar</h4>
+                    <p>$7200</p>
+                    <button class="btn-primary">Ver más</button>
+                </div>
+            </div>
+        </section>
 
-            </section>
-        </main>
-    
-    </div>
-    
-    <hr>
+        <aside class="column-extra">
+            <h3 class="column-title">Promociones</h3>
+            <div class="promo-box">
+                <p><strong>2x1 en Hamburguesas</strong></p>
+                <span>Solo los Martes</span>
+            </div>
+            <div class="promo-box">
+                <p><strong>Envío Gratis</strong></p>
+                <span>En compras mayores a $15.000</span>
+            </div>
+        </aside>
 
-    <footer>
-        <p>&copy; 2026 Food Store. Todos los derechos reservados.</p>
-        <p>Contactanos: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 Food Store - Parcial 1 Macarena Marinoni</p>
     </footer>
-    
-    <script type="module" src="./src/main.ts"></script>
-
 </body>
 </html>
