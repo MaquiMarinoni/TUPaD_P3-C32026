@@ -10,8 +10,15 @@
 
     <header class="main-header">
         <div class="header-container">
-            <h1 class="logo">Food<strong>Store</strong></h1>
-            <a href="../home/index.html" class="nav-link">Seguir comprando</a>
+            <a href="../../../../index.html" class="logo">Food<strong>Store</strong></a>
+            <nav class="main-nav">
+                <a href="../../../../index.html" class="nav-link">Inicio</a>
+                <a href="../home/index.html" class="nav-link">Tienda</a>
+                <div class="cart-link-container">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </div>
+            </nav>
         </div>
     </header>
 
@@ -20,23 +27,7 @@
 
         <div class="cart-layout">
             <section class="cart-items-list" id="cart-items-container">
-                <div class="cart-item-card">
-                    <img src="../../../assets/pizza.jpg" alt="Producto" class="item-img-mini">
-                    <div class="item-info-main">
-                        <h4>Torta Rogel</h4>
-                        <p class="item-cat-tag">Postres</p>
-                        <p class="item-subtotal-text">Subtotal: <strong>$3.500</strong></p>
-                    </div>
-                    <div class="item-controls-wrapper">
-                        <div class="qty-selector">
-                            <button class="btn-qty">-</button>
-                            <span class="qty-num">1</span>
-                            <button class="btn-qty">+</button>
-                        </div>
-                        <button class="btn-delete-text">Eliminar</button>
-                    </div>
-                </div>
-            </section>
+                </section>
 
             <aside class="cart-sidebar-summary">
                 <div class="summary-card-modern">
@@ -44,25 +35,27 @@
                     <div class="summary-details">
                         <div class="summary-line">
                             <span>Subtotal</span>
-                            <span id="subtotal">$0</span>
+                            <span id="cart-subtotal">$0</span>
                         </div>
                         <div class="summary-line total-big">
                             <span>Total</span>
-                            <span id="total-final">$0</span>
+                            <span id="cart-total-final">$0</span>
                         </div>
                     </div>
-                    
                     <button class="btn-checkout-modern" disabled>Finalizar compra</button>
                     <p class="checkout-warning">
                         <i class="fas fa-exclamation-triangle"></i> 
-                        El checkout no está disponible en esta versión.
+                        El checkout no está disponible.
                     </p>
-                    
-                    <button id="btn-vaciar" class="btn-clear-cart">Vaciar carrito</button>
+                    <button id="btn-vaciar-carrito" class="btn-clear-cart">Vaciar carrito</button>
                 </div>
             </aside>
         </div>
     </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 Food Store - Parcial 1 Macarena Marinoni</p>
+    </footer>
 
     <script type="module" src="./cart.ts"></script>
 
