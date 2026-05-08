@@ -2,47 +2,79 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Catálogo - Food Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Store - Catálogo</title>
     <link rel="stylesheet" href="../../../css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="store-page"> <header class="main-header">
+<body class="store-page">
+
+    <header class="main-header">
         <div class="header-container">
-            <h1 class="logo">Food<strong>Store</strong></h1>
+            <a href="../../../../index.html" class="logo">Food<strong>Store</strong></a>
             <nav class="main-nav">
-                <a href="../cart/index.html" class="nav-link nav-cart">
-                    Catálogo
-                </a>
-                <a href="../cart/index.html" class="nav-link nav-cart">
-                    Carrito <span id="cart-count" class="cart-badge">0</span>
-                </a>
-                <button id="btn-logout" class="btn-logout" style="display: none;">
-                    <i class="fas fa-sign-out-alt"></i>
-                </button>
+                <a href="../../../../index.html" class="nav-link">Inicio</a>
+                <a href="../../client/home/index.html" class="nav-link">Mis Pedidos</a>
+                <a href="../cart/index.html" class="nav-link">Carrito</a>
             </nav>
+            <div class="header-search">
+                <form class="search-form" id="search-form">
+                    <input type="text" id="search-input" placeholder="¿Qué buscas hoy?">
+                    <i class="fas fa-search"></i>
+                </form>
+            </div>
         </div>
     </header>
 
-    <main class="store-container">
-        <aside class="sidebar">
-            <h3 class="sidebar-title">CATEGORÍAS</h3>
-            <ul id="lista-categorias" class="category-list">
+    <main class="store-layout-container">
+        
+        <aside class="store-sidebar">
+            <div class="filter-section">
+                <h3 class="sidebar-title">Categorías</h3>
+                <ul class="category-list" id="category-filter">
+                    <li>
+                        <a href="#" class="enlace-categoria active" data-category="all">
+                            Todos los productos
+                        </a>
+                    </li>
+                    
+                    <li><a href="#" class="enlace-categoria" data-category="1">Pizzas</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="2">Hamburguesas</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="3">Bebidas</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="4">Postres</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="5">Empanadas</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="6">Ensaladas</a></li>
                 </ul>
+            </div>
         </aside>
 
-        <section class="main-content">
-            <div class="search-bar-container">
-                <form id="formulario-busqueda" class="search-form">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="buscarProducto" placeholder="Buscar productos...">
-                </form>
+        <section class="store-main-content">
+            <div class="content-header">
+                <h2 id="category-title">Todos los productos</h2>
+                <span class="product-count" id="product-count">Mostrando 0 productos</span>
             </div>
 
-            <div id="contenedor-productos" class="product-grid">
+            <div class="product-grid" id="product-container">
+                <div class="producto-card">
+                    <img src="../../../assets/pizza-pepperoni.png" alt="Pizza Pepperoni">
+                    <h4>Pizza Pepperoni</h4>
+                    <p>$8500</p>
+                    <button class="btn-primary">Agregar al Carrito</button>
                 </div>
+                <div class="producto-card">
+                    <img src="../../../assets/hamburguesa-doble.png" alt="Hamburguesa Doble">
+                    <h4>Hamburguesa Doble</h4>
+                    <p>$7500</p>
+                    <button class="btn-primary">Agregar al Carrito</button>
+                </div>
+            </div>
         </section>
     </main>
 
-    <script type="module" src="../../../main.ts"></script>
+    <footer class="main-footer">
+        <p>&copy; 2024 Food Store - Entrega N2</p>
+    </footer>
+
+    <script type="module" src="./home.ts"></script>
 </body>
 </html>

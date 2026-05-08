@@ -7,6 +7,7 @@ import type { Rol } from './Rol';
  * Define qué propiedades son obligatorias y de qué tipo debe ser cada una.
  */
 export interface IUser {
+    nombre: string;     // El nombre del usuario, siempre una cadena de texto
     email: string;      // Debe ser siempre una cadena de texto
     role: Rol;           // No es cualquier string, debe ser uno de los definidos en Rol.ts
     loggedIn: boolean; // Estado de la sesión
