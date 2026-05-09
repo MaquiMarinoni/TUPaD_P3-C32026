@@ -26,25 +26,34 @@ const actualizarBadgeCarrito = () => {
 
 /** Función global para agregar productos al carrito. La exponemos a window para que funcione con el atributo onclick del HTML inyectado */
 (window as any).agregarAlCarrito = (id: number) => {
-    // 1. Buscamos el producto en la data
+    // 1. Buscamos el producto en la data (usando tus constantes)
     const producto = PRODUCTS.find(p => p.id === id);
     if (!producto) return;
 
-    // 2. Traemos lo que ya existe en el carrito del localStorage
+    // 2. Traemos lo que ya existe en el carrito del localStorage (usando tu clave "cart")
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    // 3. Agregamos el nuevo producto
-    cart.push(producto);
+    // 3. Lógica de Cantidades: Buscamos si el producto ya está en el carrito
+    const itemExistente = cart.find((item: any) => item.id === id);
 
-    // 4. Guardamos de nuevo en localStorage
+    if (itemExistente) {
+        // Si ya existe, aumentamos la propiedad cantidad
+        // (Asegurate que en tu interfaz CartItem exista 'cantidad')
+        itemExistente.cantidad = (itemExistente.cantidad || 1) + 1;
+    } else {
+        // Si no existe, lo agregamos con cantidad inicial 1
+        // Usamos el spread operator (...) para no modificar el objeto original de PRODUCTS
+        cart.push({ ...producto, cantidad: 1 });
+    }
+
+    // 4. Guardamos de nuevo en localStorage (usando tu clave "cart")
     localStorage.setItem("cart", JSON.stringify(cart));
 
-    // 5. Actualizamos el icono del carrito inmediatamente
+    // 5. Actualizamos el icono del carrito inmediatamente (tu función existente)
     actualizarBadgeCarrito();
 
-    console.log(`Producto ${producto.nombre} agregado.`);
+    console.log(`Producto ${producto.nombre} actualizado. Cantidad total: ${itemExistente ? itemExistente.cantidad : 1}`);
 };
-
 /* Función para renderizar las cards de los productos */
 const renderizarProductos = (productosParaMostrar: Product[]) => {
     if (!contenedorProductos) return;
