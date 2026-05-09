@@ -1,5 +1,5 @@
 // --- IMPORTACIONES ---
-import { PRODUCTS, categorias } from "./data";
+import { PRODUCTS, categorias } from "../src/data/data";
 import { Product } from "./types/producto";
 import { ICategory } from "./types/categoria";
 import { getLoggedUser, clearLoggedUser, addToCart, getCart } from "./utils/localStorage";

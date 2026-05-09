@@ -1,4 +1,4 @@
-import { PRODUCTS } from "../../../data";
+import { PRODUCTS } from "../../../data/data";
 import type { Product } from "../../../types/producto";
 
 // 1. Seleccionamos los elementos del DOM
@@ -8,9 +8,7 @@ const tituloCategoria = document.getElementById("category-title");
 const contadorProductos = document.getElementById("product-count");
 const buscador = document.getElementById("search-input") as HTMLInputElement;
 
-/**
- * Función para actualizar el número en el icono del carrito (Badge)
- */
+/** Función para actualizar el número en el icono del carrito (Badge) */
 const actualizarBadgeCarrito = () => {
     const badge = document.getElementById("cart-count");
     if (!badge) return;
@@ -26,10 +24,7 @@ const actualizarBadgeCarrito = () => {
     setTimeout(() => badge.classList.remove("bump"), 300);
 };
 
-/**
- * Función global para agregar productos al carrito
- * La exponemos a window para que funcione con el atributo onclick del HTML inyectado
- */
+/** Función global para agregar productos al carrito. La exponemos a window para que funcione con el atributo onclick del HTML inyectado */
 (window as any).agregarAlCarrito = (id: number) => {
     // 1. Buscamos el producto en la data
     const producto = PRODUCTS.find(p => p.id === id);
@@ -50,9 +45,7 @@ const actualizarBadgeCarrito = () => {
     console.log(`Producto ${producto.nombre} agregado.`);
 };
 
-/**
- * Función para renderizar las cards de los productos
- */
+/* Función para renderizar las cards de los productos */
 const renderizarProductos = (productosParaMostrar: Product[]) => {
     if (!contenedorProductos) return;
     
@@ -71,7 +64,7 @@ const renderizarProductos = (productosParaMostrar: Product[]) => {
         const card = document.createElement("div");
         card.className = "producto-card";
         card.innerHTML = `
-            <img src="../../../assets/${producto.imagen}" alt="${producto.nombre}">
+            <img src="/src/data/assets/${producto.imagen}" alt="${producto.nombre}">
             <div class="card-body">
                 <div class="card-text">
                     <h4>${producto.nombre}</h4>
