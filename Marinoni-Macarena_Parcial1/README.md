@@ -25,3 +25,4 @@ Este proyecto es una evolución de la aplicación "Food Store", desarrollada par
 ---
 **Desarrollado por:** Macarena Marinoni  
 **Materia:** Programación III - Tecnicatura Universitaria en Programación (UTN)
+**LINK video**: https://www.youtube.com/watch?v=TF4HSBjuQXk
