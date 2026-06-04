@@ -2,41 +2,40 @@ package com.tup.programacion3.entities;
 
 import java.util.Objects;
 
-public class Categoria extends Base {
+public class Categoria {
+    private Long id; // Agregado explícitamente
     private String nombre;
 
     // Constructor completo
     public Categoria(Long id, String nombre) {
-        super(id); // manda el id hacia arriba, a la clase padre Base
+        this.id = id;
         this.nombre = nombre;
     }
 
-    // Getter y Setter
+    // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
-    // =========================================================================
-    // Métodos de Identidad (Alt + Insert)
-    // =========================================================================
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true; // Si apuntan al mismo lugar de memoria, son iguales
-        if (o == null || getClass() != o.getClass()) return false; // Si es nulo o de otra clase, no
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Categoria categoria = (Categoria) o;
-        return Objects.equals(nombre, categoria.nombre); // categorias iguales si se llaman igual
+        return Objects.equals(nombre, categoria.nombre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nombre); // El casillero del mapa depende de su nombre
+        return Objects.hash(nombre);
     }
 
     @Override
     public String toString() {
-        // Usamos getId() heredado de Base
         return "Categoria{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 '}';
     }

@@ -2,18 +2,19 @@ package com.tup.programacion3.entities;
 
 import java.util.Objects;
 
-public class Producto extends Base {
+public class Producto {
+    private Long id; // Agregado explícitamente
     private String nombre;
     private Double precio;
     private String descripcion;
     private int stock;
     private String imagen;
     private Boolean disponible;
-    private Categoria categoria; // Relación con Categoria
+    private Categoria categoria;
 
     // Constructor completo
     public Producto(Long id, String nombre, Double precio, String descripcion, int stock, String imagen, Boolean disponible, Categoria categoria) {
-        super(id); // Pasamos el ID a la clase padre Base
+        this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.descripcion = descripcion;
@@ -24,6 +25,9 @@ public class Producto extends Base {
     }
 
     // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
@@ -45,15 +49,12 @@ public class Producto extends Base {
     public Categoria getCategoria() { return categoria; }
     public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 
-    // =========================================================================
-    // Métodos de Identidad (Comparación basada en el nombre del producto)
-    // =========================================================================
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Producto producto = (Producto) o;
-        return Objects.equals(nombre, producto.nombre); // Lógica: nombres iguales implica mismo producto
+        return Objects.equals(nombre, producto.nombre);
     }
 
     @Override
@@ -61,17 +62,13 @@ public class Producto extends Base {
         return Objects.hash(nombre);
     }
 
-    // =========================================================================
-    // toString()
-    // =========================================================================
     @Override
     public String toString() {
         return "Producto{" +
-                "id=" + getId() +
+                "id=" + id +
                 ", nombre='" + nombre + '\'' +
-                ", precio=" + precio +
+                ", precio=$" + precio +
                 ", stock=" + stock +
-                ", disponible=" + disponible +
                 ", categoria=" + (categoria != null ? categoria.getNombre() : "Ninguna") +
                 '}';
     }
