@@ -3,7 +3,8 @@ package com.tup.programacion3.entities;
 import com.tup.programacion3.enums.Rol;
 import java.util.Objects;
 
-public class Usuario extends Base {
+public class Usuario {
+    private Long id;
     private String nombre;
     private String apellido;
     private String mail;
@@ -13,7 +14,7 @@ public class Usuario extends Base {
 
     // Constructor completo
     public Usuario(Long id, String nombre, String apellido, String mail, String celular, String contraseña, Rol rol) {
-        super(id); // Mandamos el ID a la clase padre Base
+        this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.mail = mail;
@@ -23,6 +24,9 @@ public class Usuario extends Base {
     }
 
     // Getters y Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 
@@ -46,24 +50,21 @@ public class Usuario extends Base {
     // =========================================================================
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true; // Si es exactamente la misma posición de memoria
-        if (o == null || getClass() != o.getClass()) return false; // Si es nulo o de otra clase
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return Objects.equals(mail, usuario.mail); // LA CLAVE: Solo compara los mails
+        return Objects.equals(mail, usuario.mail);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(mail); // El hash se genera usando solo el mail
+        return Objects.hash(mail);
     }
 
-    // =========================================================================
-    // toString() (contraseña oculta por seguridad)
-    // =========================================================================
     @Override
     public String toString() {
         return "Usuario{" +
-                "id=" + getId() + // ID heredado de Base
+                "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", mail='" + mail + '\'' +
