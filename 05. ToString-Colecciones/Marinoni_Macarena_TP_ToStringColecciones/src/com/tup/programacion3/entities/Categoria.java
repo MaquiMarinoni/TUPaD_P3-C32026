@@ -34,7 +34,7 @@ public class Categoria extends Base {
 
     @Override
     public String toString() {
-        // uso getId() de la clase Base para armar un log legible
+        // Usamos getId() heredado de Base
         return "Categoria{" +
                 "id=" + getId() +
                 ", nombre='" + nombre + '\'' +
