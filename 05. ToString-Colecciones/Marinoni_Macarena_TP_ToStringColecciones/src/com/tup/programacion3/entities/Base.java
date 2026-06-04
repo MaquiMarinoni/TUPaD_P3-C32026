@@ -7,19 +7,19 @@ public abstract class Base {
     private boolean eliminado;
     private LocalDateTime createdAt;
 
-    // Constructor por defecto: inicializa el tiempo de creacion
+    // Constructor por defecto: inicializa el tiempo de creacion automaticamente
     public Base() {
         this.createdAt = LocalDateTime.now();
-        this.eliminado = false; // Por defecto arranca activo
+        this.eliminado = false; // Al nacer, el objeto no está eliminado
     }
 
-    // Constructor secundario por si se necesita setear el ID al instanciar
+    // Constructor secundario por si hay que pasar un ID ya existente
     public Base(Long id) {
         this();
         this.id = id;
     }
 
-    // Getters y Setters
+    // Getters y Setters necesarios para que las clases hijas expongan estos datos
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
