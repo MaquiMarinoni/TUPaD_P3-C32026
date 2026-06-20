@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5918a8c8-0d58-43fb-9d45-918b8140ac68" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/checksums/md5-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/checksums/sha1-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/executionHistory/executionHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/9.3.0/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Marinoni_Macarena_TP_ToStringColecciones.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/DTOs/UsuarioDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/Calculable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/Categoria$CategoriaBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/Categoria.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/DetallePedido$DetallePedidoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/DetallePedido.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/Pedido$PedidoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/Pedido.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/Producto$ProductoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/Producto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/Usuario$UsuarioBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/entities/Usuario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/enums/Estado.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/enums/FormaPago.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/tup/programacion3/enums/Rol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/Main.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/entities/Calculable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/entities/Categoria.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/entities/DetallePedido.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/entities/Pedido.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/entities/Producto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/entities/Usuario.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/enums/Estado.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/enums/FormaPago.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Marinoni_Macarena_TP_ToStringColecciones/com/tup/programacion3/enums/Rol.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/.idea/Marinoni_Macarena_TP_ToStringColecciones.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/src/com/tup/programacion3/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/src/com/tup/programacion3/entities/Categoria.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/src/com/tup/programacion3/entities/DetallePedido.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/src/com/tup/programacion3/entities/Pedido.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/src/com/tup/programacion3/entities/Producto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/src/com/tup/programacion3/entities/Usuario.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/src/com/tup/programacion3/enums/Estado.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/src/com/tup/programacion3/enums/FormaPago.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Marinoni_Macarena_TP_ToStringColecciones/src/com/tup/programacion3/enums/Rol.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="3F3Wb1nIl5C2raGJB7p8VUokVaN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.24374.151" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.24374.151" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5918a8c8-0d58-43fb-9d45-918b8140ac68" name="Changes" comment="" />
+      <created>1781304302868</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1781304302868</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
