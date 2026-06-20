@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Store - Catálogo</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
+
+</head>
+<body class="store-page">
+
+    <header class="main-header">
+        <div class="header-container">
+            <a href="../../../../index.html" class="logo">Food<strong>Store</strong></a>
+            <nav class="main-nav">
+                <a href="../../../../index.html" class="nav-link">Inicio</a>
+                <a href="../../client/home/index.html" class="nav-link">Mis Pedidos</a>
+                <a href="../cart/index.html" class="nav-link">Carrito</a>
+            </nav>
+            <div class="header-search">
+                <form class="search-form" id="search-form">
+                    <input type="text" id="search-input" placeholder="¿Qué buscas hoy?">
+                    <i class="fas fa-search"></i>
+                </form>
+            </div>
+            <nav class="header-icons">
+                <a href="/src/pages/store/cart/index.html" class="cart-link-container">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="store-layout-container">
+        
+        <aside class="store-sidebar">
+            <div class="filter-section">
+                <h3 class="sidebar-title">Categorías</h3>
+                <ul class="category-list" id="category-filter">
+                    <li>
+                        <a href="#" class="enlace-categoria active" data-category="all">
+                            Todos los productos
+                        </a>
+                    </li>
+                    
+                    <li><a href="#" class="enlace-categoria" data-category="1">Pizzas</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="2">Hamburguesas</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="3">Bebidas</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="4">Postres</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="5">Empanadas</a></li>
+                    <li><a href="#" class="enlace-categoria" data-category="6">Ensaladas</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <section class="store-main-content">
+            <div class="content-header">
+                <h2 id="category-title">Todos los productos</h2>
+                <span class="product-count" id="product-count">Mostrando 0 productos</span>
+            </div>
+
+            <div class="product-grid" id="product-container">
+                <div class="producto-card">
+                    <img src="../../../data/assets/napo.jpg" alt="Pizza Napolitana">
+                    <h4>Pizza Napolitana</h4>
+                    <p>$8500</p>
+                    <button class="btn-primary">Agregar al Carrito</button>
+                </div>
+                <div class="producto-card">
+                    <img src="../../../data/assets/b.clasica.jpg" alt="Hamburguesa Clasica">
+                    <h4>Hamburguesa Clasica</h4>
+                    <p>$7500</p>
+                    <button class="btn-primary">Agregar al Carrito</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Food Store. Todos los derechos reservados.</p>
+        <p>Contactanos: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+    </footer>
+
+    <script type="module" src="./home.ts"></script>
+</body>
+</html>

@@ -1,116 +1,28 @@
-# Food Store JPA — Plantilla TPI (Parte 2)
+# Food Store - Primer Parcial Programación III
 
-Este README corresponde a la plantilla base para el desarrollo del TPI — Parte 2 (Backend JPA + Consola).
+## Descripción del Proyecto
+Este proyecto es una evolución de la aplicación "Food Store", desarrollada para consolidar conocimientos en HTML, CSS, JavaScript y TypeScript. Se implementó un catálogo dinámico de productos con funcionalidades de búsqueda y filtrado por categorías, junto con un sistema de carrito de compras que utiliza persistencia de datos mediante LocalStorage.
 
----
+## Funcionalidades Implementadas
+- **Autenticación:** Sistema de Login y Registro de usuarios con validación de roles (Client/Admin).
+- **Catálogo Dinámico:** Renderizado de productos desde una base de datos local (`data.ts`).
+- **Búsqueda en tiempo real:** Filtrado de productos por nombre mediante una barra de búsqueda.
+- **Filtrado por categorías:** Menú lateral funcional para navegar entre los distintos tipos de comida.
+- **Carrito de compras:** - Adición de productos con actualización de cantidades.
+  - Visualización detallada de ítems, subtotales y total general.
+  - Persistencia de datos mediante LocalStorage.
+  - Vaciado completo del carrito.
+- **Interfaz Responsiva:** Diseño adaptado para diferentes tamaños de pantalla utilizando CSS3.
 
-## Tecnologías
-
-- Java 21
-- JPA / Hibernate 6
-- H2 (base de datos en archivo — `./data/jpa_db`)
-- Lombok
-- Gradle 8
-
----
-
-## Estructura del proyecto
-
-```
-src/main/java/com/tp/jpa/
-│
-├── model/                        # Entidades JPA (NO modificar)
-│   ├── Base.java                 # Clase abstracta base (id, eliminado, createdAt)
-│   ├── Calculable.java           # Interfaz con calcularTotal()
-│   ├── Categoria.java
-│   ├── Producto.java
-│   ├── Usuario.java
-│   ├── Pedido.java
-│   ├── DetallePedido.java
-│   └── enums/
-│       ├── Rol.java
-│       ├── Estado.java
-│       └── FormaPago.java
-│
-├── util/
-│   └── JPAUtil.java              # Factory singleton (NO modificar — ya implementado)
-│
-├── repository/                   # ★ COMPLETAR — queries personalizadas
-│   ├── BaseRepository.java       # CRUD genérico (NO modificar — ya implementado)
-│   ├── CategoriaRepository.java  # Sin queries extra (NO modificar)
-│   ├── ProductoRepository.java   # ★ Implementar buscarPorCategoria()
-│   ├── UsuarioRepository.java    # ★ Implementar buscarPorMail()
-│   └── PedidoRepository.java     # ★ Implementar buscarPorUsuario() y buscarPorEstado()
-│
-└── Main.java                     # ★ COMPLETAR — menús de consola
-```
+## Instrucciones para ejecutar el proyecto
+1. **Requisitos previos:** Asegúrese de tener instalado [Node.js](https://nodejs.org/) y un gestor de paquetes (npm o pnpm).
+2. **Instalación de dependencias:** Ejecute el comando `npm install` o `pnpm install` en la terminal parada en la raíz del proyecto.
+3. **Levantar el servidor de desarrollo:**
+   Ejecute `npm run dev` o `pnpm dev`.
+4. **Acceso a la app:**
+   Abra su navegador en la dirección `http://localhost:5173` (o la que indique su terminal).
 
 ---
-
-## Qué está implementado
-
-| Componente | Estado |
-|---|---|
-| `JPAUtil` | ✅ Completo |
-| `BaseRepository` (guardar, buscarPorId, listarActivos, eliminarLogico) | ✅ Completo |
-| `CategoriaRepository` | ✅ Completo (hereda todo de Base) |
-| Modelo completo (todas las entidades y enums) | ✅ Completo |
-| `Main` — estructura del menú principal | ✅ Esqueleto listo |
-
----
-
-## Qué hay que implementar
-
-### Repositorios
-
-| Clase | Método | Descripción |
-|---|---|---|
-| `ProductoRepository` | `buscarPorCategoria(Long categoriaId)` | JPQL filtrando por categoría y `eliminado = false` |
-| `UsuarioRepository` | `buscarPorMail(String mail)` | JPQL filtrando por mail y `eliminado = false`, retorna `Optional<Usuario>` |
-| `PedidoRepository` | `buscarPorUsuario(Long idUsuario)` | JPQL filtrando por usuario y `eliminado = false` |
-| `PedidoRepository` | `buscarPorEstado(Estado estado)` | JPQL filtrando por estado y `eliminado = false` |
-
-### Menú de consola (`Main.java`)
-
-| Método | Descripción |
-|---|---|
-| `menuCategorias()` | Alta, modificar, baja lógica, listado |
-| `menuProductos()` | Alta (con selección de categoría), modificar, baja lógica, listado |
-| `menuUsuarios()` | Alta (mail único), modificar, baja lógica, listado, buscar por mail |
-| `menuPedidos()` | Alta (transacción atómica), cambiar estado, baja lógica, listados |
-| `menuReportes()` | Productos por categoría, pedidos por usuario/estado, total facturado |
-
----
-
-## Cómo ejecutar
-
-```bash
-./gradlew run
-```
-
-O compilar y ejecutar el JAR:
-
-```bash
-./gradlew jar
-java -jar build/libs/foodstore-jpa-0.0.1-SNAPSHOT.jar
-```
-
-La base de datos H2 se crea automáticamente en `./data/jpa_db.mv.db` al primer arranque.
-
----
-
-## Credenciales / datos de prueba
-
-No hay carga inicial automática. Crear los datos desde el menú de consola en este orden:
-
-1. Categorías
-2. Productos (requieren categoría existente)
-3. Usuarios
-4. Pedidos (requieren usuario y productos existentes)
-
----
-
-## Entrega
-
-- **Video demostrativo:** [link aquí]
-- **Informe PDF:** [link aquí]
+**Desarrollado por:** Macarena Marinoni  
+**Materia:** Programación III - Tecnicatura Universitaria en Programación (UTN)
+**LINK video**: https://www.youtube.com/watch?v=TF4HSBjuQXk
