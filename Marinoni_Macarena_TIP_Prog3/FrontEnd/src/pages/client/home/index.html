@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Mis Pedidos - Food Store</title>
-    <link rel="stylesheet" href="../../../../src/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/src/css/styles.css">
 </head>
 <body>
     <header>
         <div class="header-container">
             <h1>Mis Pedidos</h1>
             <nav>
-                <a href="/index.html">Volver a la Tienda</a>
+                <a href="/src/pages/store/home/index.html">Volver a la Tienda</a>
                 <button id="btn-logout">Cerrar Sesión</button>
             </nav>
         </div>
@@ -18,24 +18,19 @@
 
     <main class="container">
         <section id="bienvenida">
-            <h2>¡Hola! Bienvenida a tu panel de cliente</h2>
-            <p>Aquí podrás ver el historial de tus compras y el estado de tus pedidos actuales.</p>
+            <h2>¡Hola! Bienvenido a tu panel de cliente</h2>
+            <p>Aquí podrás ver el historial de tus compras y el estado de tus pedidos.</p>
         </section>
 
         <section id="lista-pedidos">
-            <div class="card">
-                <h3>Pedido #1234</h3>
-                <p>Estado: <strong>En camino 🛵</strong></p>
-                <p>Total: $15.500</p>
-            </div>
-            </section>
+            <p>Cargando tus pedidos...</p>
+        </section>
     </main>
 
     <footer class="main-footer">
         <p>&copy; 2026 Food Store. Todos los derechos reservados.</p>
-        <p>Contactanos: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
     </footer>
 
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="./client_home.ts"></script>
 </body>
 </html>

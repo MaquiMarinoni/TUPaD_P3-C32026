@@ -1,70 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Food Store - Panel Admin</title>
-    <link rel="stylesheet" href="../../../css/styles.css">
+    <title>Food Store - Admin</title>
+    <link rel="stylesheet" href="/src/css/styles.css">
 </head>
+
+<div id="admin-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <h2 id="modal-title">Acción</h2>
+        <form id="admin-form">
+            <div id="modal-fields"></div>
+            <div class="modal-actions">
+                <button type="button" id="close-modal" class="btn-cancel">Cancelar</button>
+                <button type="submit" class="btn-primary">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <body class="admin-page">
-    
-    <header class="main-header">
-        <div class="header-container">
-            <a href="../../../../index.html" class="logo">Food<strong>Store</strong></a>
-            <nav class="main-nav">
-                <a href="../../../../index.html" class="nav-link">Inicio</a>
-                <a href="../../store/home/index.html" class="nav-link">Catalogo</a>
-            </nav>
-            <div class="header-actions">
-                <span class="user-role-badge">ADMIN</span>
-                <a href="../../../../index.html" class="nav-link logout-btn"><i class="fas fa-sign-out-alt"></i> Salir</a>
-            </div>
-        </div>
-    </header>
 
-    <main class="admin-main-container">
-        <header class="admin-content-header">
-            <div>
-                <h1>Gestión de Productos</h1>
-                <p>Añade, edita o elimina los productos de tu tienda.</p>
-            </div>
-            <button class="btn-primary" id="btn-nuevo-producto">
-                <i class="fas fa-plus"></i> Nuevo Producto
-            </button>
+    <aside class="sidebar">
+        <div class="logo">Food<strong>Store</strong></div>
+        <nav>
+            <button class="nav-btn active" data-view="dashboard"><i class="fas fa-chart-line"></i> Dashboard</button>
+            <button class="nav-btn" data-view="productos"><i class="fas fa-box"></i> Productos</button>
+            <button class="nav-btn" data-view="categorias"><i class="fas fa-tags"></i> Categorías</button>
+            <button class="nav-btn" data-view="pedidos"><i class="fas fa-shopping-cart"></i> Pedidos</button>
+            <hr>
+            <a href="/src/pages/store/home/index.html" class="nav-btn"><i class="fas fa-store"></i> Ver Tienda</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <header class="admin-header">
+            <h1 id="view-title">Bienvenido, Admin</h1>
+            <button id="btn-logout" class="btn-logout">Salir</button>
         </header>
-
-        <section class="admin-table-container">
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Imagen</th>
-                        <th>Nombre</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><img src="../../../assets/simple-clasica.png" alt="Producto" class="table-img"></td>
-                        <td><strong>Simple Clásica</strong></td>
-                        <td>Hamburguesas</td>
-                        <td>$5.500</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn-edit" title="Editar"><i class="fas fa-edit"></i></button>
-                                <button class="btn-delete" title="Eliminar"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-            </table>
-        </section>
+        <section id="admin-content"></section>
     </main>
 
-    <footer class="main-footer">
-        <p>&copy; 2026 Food Store. Todos los derechos reservados.</p>
-        <p>Contactanos: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
-    </footer>
+    <div id="admin-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2 id="modal-title">Acción</h2>
+            <form id="admin-form">
+                <div id="modal-fields"></div>
+                <div class="modal-actions">
+                    <button type="button" id="close-modal" class="btn-cancel">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="./admin.ts"></script>
+
+
 
 </body>
+
 </html>
