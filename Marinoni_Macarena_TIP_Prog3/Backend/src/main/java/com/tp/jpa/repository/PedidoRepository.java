@@ -1,16 +1,10 @@
 package com.tp.jpa.repository;
 
 import com.tp.jpa.model.Pedido;
-import com.tp.jpa.model.Usuario;
-import com.tp.jpa.model.enums.EstadoPedido;
 import jakarta.persistence.EntityManager;
-
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 
-/**
- * Repositorio de Pedido. Además del CRUD heredado implementa consultas por
- * usuario y por estado.
- */
 public class PedidoRepository extends BaseRepository<Pedido> {
 
     public PedidoRepository() {
@@ -18,18 +12,20 @@ public class PedidoRepository extends BaseRepository<Pedido> {
     }
 
     /**
-     * Retorna los pedidos activos del usuario indicado.
+     * Retorna todos los pedidos activos de un usuario determinado.
      */
-    public List<Pedido> buscarPorUsuario(Long idUsuario) {
-        // TODO: implementar
-        throw new UnsupportedOperationException("Método no implementado aún");
-    }
+    public List<Pedido> buscarPorUsuario(Long usuarioId) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            // Navegamos: Pedido -> Usuario -> ID
+            String jpql = "SELECT p FROM Pedido p WHERE p.usuario.id = :uId AND p.eliminado = false";
 
-    /**
-     * Retorna los pedidos activos que coinciden con el estado indicado.
-     */
-    public List<Pedido> buscarPorEstado(EstadoPedido estadoPedido) {
-        // TODO: implementar
-        throw new UnsupportedOperationException("Método no implementado aún");
+            TypedQuery<Pedido> query = em.createQuery(jpql, Pedido.class);
+            query.setParameter("uId", usuarioId);
+
+            return query.getResultList();
+        } finally {
+            em.close();
+        }
     }
 }
