@@ -1,4 +1,4 @@
-import { PRODUCTS } from "../../../data/data";
+import { getProductos } from "../../../services/dataService";
 import type { Product } from "../../../types/producto";
 
 // 1. Seleccionamos los elementos del DOM
@@ -13,47 +13,36 @@ const actualizarBadgeCarrito = () => {
     const badge = document.getElementById("cart-count");
     if (!badge) return;
 
-    // Obtenemos los productos actuales del localStorage
     const carrito = JSON.parse(localStorage.getItem("cart") || "[]");
-    const cantidadTotal = carrito.length;
+    // Usamos reduce para sumar las cantidades reales, no solo la longitud del array
+    const cantidadTotal = carrito.reduce((sum: number, item: any) => sum + (item.cantidad || 1), 0);
     
     badge.innerText = cantidadTotal.toString();
 
-    // Efecto visual de rebote (bump)
     badge.classList.add("bump");
     setTimeout(() => badge.classList.remove("bump"), 300);
 };
 
-/** Función global para agregar productos al carrito. La exponemos a window para que funcione con el atributo onclick del HTML inyectado */
-(window as any).agregarAlCarrito = (id: number) => {
-    // 1. Buscamos el producto en la data (usando tus constantes)
-    const producto = PRODUCTS.find(p => p.id === id);
+/** Función global para agregar productos al carrito */
+(window as any).agregarAlCarrito = async (id: number) => {
+    // Obtenemos data fresca
+    const allProducts = await getProductos();
+    const producto = allProducts.find(p => p.id === id);
     if (!producto) return;
 
-    // 2. Traemos lo que ya existe en el carrito del localStorage (usando tu clave "cart")
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-    // 3. Lógica de Cantidades: Buscamos si el producto ya está en el carrito
     const itemExistente = cart.find((item: any) => item.id === id);
 
     if (itemExistente) {
-        // Si ya existe, aumentamos la propiedad cantidad
-        // (Asegurate que en tu interfaz CartItem exista 'cantidad')
         itemExistente.cantidad = (itemExistente.cantidad || 1) + 1;
     } else {
-        // Si no existe, lo agregamos con cantidad inicial 1
-        // Usamos el spread operator (...) para no modificar el objeto original de PRODUCTS
         cart.push({ ...producto, cantidad: 1 });
     }
 
-    // 4. Guardamos de nuevo en localStorage (usando tu clave "cart")
     localStorage.setItem("cart", JSON.stringify(cart));
-
-    // 5. Actualizamos el icono del carrito inmediatamente (tu función existente)
     actualizarBadgeCarrito();
-
-    console.log(`Producto ${producto.nombre} actualizado. Cantidad total: ${itemExistente ? itemExistente.cantidad : 1}`);
 };
+
 /* Función para renderizar las cards de los productos */
 const renderizarProductos = (productosParaMostrar: Product[]) => {
     if (!contenedorProductos) return;
@@ -65,7 +54,7 @@ const renderizarProductos = (productosParaMostrar: Product[]) => {
     }
 
     if (productosParaMostrar.length === 0) {
-        contenedorProductos.innerHTML = `<p class="no-products">No se encontraron productos en esta categoría.</p>`;
+        contenedorProductos.innerHTML = `<p class="no-products">No se encontraron productos.</p>`;
         return;
     }
 
@@ -88,12 +77,11 @@ const renderizarProductos = (productosParaMostrar: Product[]) => {
     });
 };
 
-/**
- * Lógica de Filtrado por Categoría
- */
+/** Lógica de Filtrado por Categoría */
 listaCategorias.forEach(enlace => {
-    enlace.addEventListener("click", (e) => {
+    enlace.addEventListener("click", async (e) => {
         e.preventDefault();
+        const allProducts = await getProductos(); // Obtenemos data fresca al filtrar
 
         listaCategorias.forEach(el => el.classList.remove("active"));
         enlace.classList.add("active");
@@ -104,9 +92,9 @@ listaCategorias.forEach(enlace => {
         if (tituloCategoria) tituloCategoria.innerText = nombreCat || "Productos";
 
         if (categoriaId === "all") {
-            renderizarProductos(PRODUCTS);
+            renderizarProductos(allProducts);
         } else {
-            const filtrados = PRODUCTS.filter(p => 
+            const filtrados = allProducts.filter(p => 
                 p.categorias.some(c => c.id === Number(categoriaId))
             );
             renderizarProductos(filtrados);
@@ -114,19 +102,21 @@ listaCategorias.forEach(enlace => {
     });
 });
 
-/**
- * Lógica del Buscador
- */
-buscador?.addEventListener("input", () => {
+/** Lógica del Buscador */
+buscador?.addEventListener("input", async () => {
+    const allProducts = await getProductos(); // Obtenemos data fresca al buscar
     const query = buscador.value.toLowerCase();
-    const filtrados = PRODUCTS.filter(p => 
+    const filtrados = allProducts.filter(p => 
         p.nombre.toLowerCase().includes(query)
     );
     renderizarProductos(filtrados);
 });
 
 // --- INICIALIZACIÓN ---
-// 1. Mostramos todos los productos al cargar
-renderizarProductos(PRODUCTS);
-// 2. Sincronizamos el numerito del carrito al cargar por si ya había items
-actualizarBadgeCarrito();
+const init = async () => {
+    const productos = await getProductos();
+    renderizarProductos(productos);
+    actualizarBadgeCarrito();
+};
+
+init();
