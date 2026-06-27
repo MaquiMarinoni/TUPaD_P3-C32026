@@ -26,3 +26,6 @@ Este proyecto es una evolución de la aplicación "Food Store", desarrollada par
 **Desarrollado por:** Macarena Marinoni  
 **Materia:** Programación III - Tecnicatura Universitaria en Programación (UTN)
 **LINK video**: https://www.youtube.com/watch?v=TF4HSBjuQXk
+## Notas de la Iteración Actual (Frontend)
+- **Costo de Envío:** Según los requerimientos del Hito F5, el costo de envío se ha implementado como una constante fija en el Frontend. El valor definido es de **$2.500 ARS** y se aplica automáticamente en el resumen del carrito y en el total del pedido al finalizar la compra.
+- **Persistencia Temporal:** Hasta la futura conexión con el Backend en Java/Spring Boot, la creación de nuevos pedidos, categorías y productos se simula utilizando `localStorage` en conjunto con la lectura de los archivos estáticos `.json`.

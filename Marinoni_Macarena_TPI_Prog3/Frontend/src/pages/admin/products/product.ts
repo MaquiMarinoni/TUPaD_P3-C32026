@@ -1,7 +1,6 @@
-import { getProductos, getCategorias } from "../../../services/dataService";
+import { getProductos, getCategorias, saveProducto, deleteProducto } from "../../../services/dataService";
 import { validarSesion, cerrarSesion } from "../../../utils/authGuard";
 
-// Protegemos la ruta
 validarSesion('ADMIN');
 
 const contentArea = document.getElementById("admin-content") as HTMLElement;
@@ -13,7 +12,6 @@ const fields = document.getElementById("modal-fields") as HTMLElement;
 const renderizarProductos = async () => {
     contentArea.innerHTML = "<p>Cargando productos...</p>";
     try {
-        // F5.4: Fetch a productos.json y categorias.json
         const prods = await getProductos();
         const cats = await getCategorias();
         
@@ -38,11 +36,8 @@ const renderizarProductos = async () => {
                         </tr>
                     </thead>
                     <tbody>${prods.map((p: any) => {
-                        // F5.4: Cruce de datos para el nombre de la categoría
                         const categoriaReal = cats.find(c => c.id === Number(p.categoriaId));
                         const nombreCat = categoriaReal ? categoriaReal.nombre : 'Sin Categoría';
-                        
-                        // F5.4: Estado del producto
                         const estadoHtml = p.disponible !== false 
                             ? `<span style="background: #2ecc71; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">Activo</span>`
                             : `<span style="background: #e74c3c; color: white; padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: bold;">Inactivo</span>`;
@@ -65,10 +60,8 @@ const renderizarProductos = async () => {
                 </table>
             </div>`;
 
-        // ACCIÓN: NUEVO
         document.getElementById("btn-new-prod")?.addEventListener("click", () => abrirModal(null, prods, cats));
         
-        // ACCIÓN: EDITAR
         document.querySelectorAll(".btn-edit").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 const id = Number((e.target as HTMLElement).getAttribute("data-id"));
@@ -76,25 +69,25 @@ const renderizarProductos = async () => {
             });
         });
 
-        // ACCIÓN: ELIMINAR (Simulado para F5)
+        // F6.2: Acción real de eliminar
         document.querySelectorAll(".btn-delete").forEach(btn => {
-            btn.addEventListener("click", (e) => {
+            btn.addEventListener("click", async (e) => {
                 const id = Number((e.target as HTMLElement).getAttribute("data-id"));
                 if(confirm(`¿Estás seguro de que deseas eliminar el producto #${id}?`)) {
-                    alert(`Producto #${id} eliminado (Operación simulada para el Frontend).`);
+                    deleteProducto(id); // Borrado lógico en memoria
+                    await renderizarProductos(); // Recarga la tabla
                 }
             });
         });
 
     } catch (error: any) {
-        contentArea.innerHTML = `<p style="color:red;">Error al cargar datos: ${error.message}</p>`;
+        contentArea.innerHTML = `<p style="color:red;">Error al cargar datos.</p>`;
     }
 };
 
 const abrirModal = (id: number | null, prods: any[], cats: any[]) => {
     const productoActual = id ? prods.find(p => p.id === id) : null;
     
-    // Armamos el menú desplegable de categorías dinámicamente
     const opcionesCategorias = cats.map(c => 
         `<option value="${c.id}" ${productoActual && productoActual.categoriaId === c.id ? 'selected' : ''}>${c.nombre}</option>`
     ).join('');
@@ -106,9 +99,7 @@ const abrirModal = (id: number | null, prods: any[], cats: any[]) => {
             <div class="form-group" style="flex: 2;"><label>Nombre</label><input type="text" name="nombre" value="${productoActual?.nombre || ''}" required></div>
             <div class="form-group" style="flex: 1;"><label>Precio ($)</label><input type="number" name="precio" value="${productoActual?.precio || ''}" required></div>
         </div>
-        
         <div class="form-group"><label>Descripción</label><textarea name="descripcion" rows="2">${productoActual?.descripcion || ''}</textarea></div>
-        
         <div style="display: flex; gap: 15px;">
             <div class="form-group" style="flex: 2;">
                 <label>Categoría</label>
@@ -118,7 +109,6 @@ const abrirModal = (id: number | null, prods: any[], cats: any[]) => {
             </div>
             <div class="form-group" style="flex: 1;"><label>Stock</label><input type="number" name="stock" value="${productoActual?.stock || 0}"></div>
         </div>
-        
         <div style="display: flex; gap: 15px; align-items: center; margin-top: 10px;">
             <div class="form-group" style="flex: 2;"><label>Imagen (Archivo)</label><input type="text" name="imagen" value="${productoActual?.imagen || ''}" placeholder="ejemplo.jpg"></div>
             <div class="form-group" style="flex: 1; flex-direction: row; gap: 10px;">
@@ -131,16 +121,27 @@ const abrirModal = (id: number | null, prods: any[], cats: any[]) => {
     modal.style.display = "flex";
 };
 
-// Listeners Generales
 document.getElementById("close-modal")?.addEventListener("click", () => modal.style.display = "none");
 document.getElementById("btn-logout")?.addEventListener("click", () => cerrarSesion());
 
-// ACCIÓN: GUARDAR (Simulado para F5)
-adminForm?.addEventListener("submit", (e) => {
+// F6.2: Acción real de guardar
+adminForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    alert("Producto guardado exitosamente (Operación simulada para el Frontend).");
+    const data = Object.fromEntries(new FormData(adminForm));
+    
+    const productoLimpio = {
+        ...data,
+        id: adminForm.dataset.id ? Number(adminForm.dataset.id) : Math.floor(Math.random() * 90000) + 10000,
+        precio: Number(data.precio),
+        stock: Number(data.stock),
+        categoriaId: Number(data.categoriaId),
+        disponible: data.disponible === 'on',
+        eliminado: false
+    };
+
+    saveProducto(productoLimpio); // Guardado en memoria local
     modal.style.display = "none";
+    await renderizarProductos(); // Recarga la tabla
 });
 
-// Inicializar la vista
 renderizarProductos();
