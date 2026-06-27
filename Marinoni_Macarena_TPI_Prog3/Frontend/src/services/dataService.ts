@@ -24,7 +24,7 @@ export const getUsuarios = async (): Promise<IUser[]> => {
         const res = await fetch('/data/usuarios.json');
         if (!res.ok) throw new Error("No se pudo cargar el archivo de usuarios");
         const usuariosJson: IUser[] = await res.json();
-        
+
         // Combinamos los estáticos con los guardados en LocalStorage
         return [...usuariosJson, ...obtenerUsuariosLocales()];
     } catch (error) {
@@ -34,21 +34,33 @@ export const getUsuarios = async (): Promise<IUser[]> => {
 };
 
 export const getPedidos = async (): Promise<any[]> => {
-    const res = await fetch('/data/pedidos.json');
-    if (!res.ok) throw new Error("No se pudieron cargar los pedidos");
-    return await res.json();
+    try {
+        // 1. Traemos el historial fijo del JSON
+        const res = await fetch('/data/pedidos.json');
+        const pedidosBase = await res.json();
+
+        // 2. Traemos los pedidos nuevos que hicimos recién en la página
+        const pedidosNuevos = JSON.parse(localStorage.getItem('crud_pedidos') || '[]');
+
+        // 3. Juntamos los dos mundos y los devolvemos
+        return [...pedidosBase, ...pedidosNuevos];
+    } catch (error) {
+        console.error("Error al cargar pedidos:", error);
+        // Si falla el JSON, al menos devolvemos los locales
+        return JSON.parse(localStorage.getItem('crud_pedidos') || '[]');
+    }
 };
 
 // --- LOGICA COMPLEMENTARIA DE AUTENTICACION ---
 
 export const autenticarUsuario = async (email: string, pass: string): Promise<Partial<IUser> | null> => {
     const usuarios = await getUsuarios();
-    
-    const usuarioEncontrado = usuarios.find(u => 
-        (u.mail === email || (u as any).email === email) && 
+
+    const usuarioEncontrado = usuarios.find(u =>
+        (u.mail === email || (u as any).email === email) &&
         (u.password === pass || (u as any).clave === pass)
     );
-    
+
     if (usuarioEncontrado) {
         const { password, clave, ...usuarioSinPass } = usuarioEncontrado as any;
         return {
@@ -66,11 +78,11 @@ export const registrarUsuarioTemporal = (nuevoUsuario: any): IUser => {
         id: Date.now(),
         rol: "CLIENT"
     };
-    
+
     // Guardamos en LocalStorage en lugar de memoria RAM
     const locales = obtenerUsuariosLocales();
     locales.push(user);
     localStorage.setItem('usuarios_nuevos', JSON.stringify(locales));
-    
+
     return user;
 };

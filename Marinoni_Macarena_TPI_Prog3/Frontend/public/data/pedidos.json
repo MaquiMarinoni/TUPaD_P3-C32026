@@ -33,5 +33,20 @@
         "subtotal": 7000
       }
     ]
+  },
+    {
+    "id": 3,
+    "fecha": "2024-05-21T12:30:00",
+    "estado": "TERMINADO",
+    "total": 7000,
+    "formaPago": "MERCADO_PAGO",
+    "idUsuario": 2,
+    "detalles": [
+      {
+        "idProducto": 2,
+        "cantidad": 1,
+        "subtotal": 7000
+      }
+    ]
   }
 ]

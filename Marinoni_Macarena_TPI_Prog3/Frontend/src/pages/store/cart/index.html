@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Food Store - Mi Carrito</title>
     <link rel="stylesheet" href="../../../css/styles.css">
 </head>
+
 <body class="store-page">
 
     <header class="main-header">
@@ -23,25 +25,81 @@
 
     <main class="cart-container" style="max-width: 800px; margin: 40px auto; padding: 20px;">
         <h2>🛒 Mi Carrito</h2>
-        
+
         <div id="cart-items" style="margin-top: 20px;">
+        </div>
+
+        <div class="cart-summary" style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+            <div style="display: flex; justify-content: flex-end; width: 100%;">
+                <div style="width: 300px; text-align: right;">
+                    <p style="margin: 5px 0; font-size: 16px;">Subtotal: $<span id="cart-subtotal">0</span></p>
+                    <p style="margin: 5px 0; font-size: 16px; color: #666;">Costo de Envío: $<span
+                            id="cart-shipping">0</span></p>
+                    <h3
+                        style="margin: 15px 0; font-size: 24px; color: var(--orange-primary); border-top: 2px solid #ddd; padding-top: 10px;">
+                        Total: $<span id="cart-total">0</span>
+                    </h3>
+                </div>
             </div>
 
-        <div class="cart-summary" style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: right;">
-            <h3 style="margin-bottom: 15px;">Total: $<span id="cart-total">0</span></h3>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <a href="/src/pages/store/home/index.html" style="color: var(--orange-primary); text-decoration: none; font-weight: bold;">
-                    <i class="fas fa-arrow-left"></i> Seguir Comprando
-                </a>
-                
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                <div>
+                    <a href="/src/pages/store/home/index.html"
+                        style="color: var(--orange-primary); text-decoration: none; font-weight: bold; margin-right: 20px;">
+                        <i class="fas fa-arrow-left"></i> Seguir Comprando
+                    </a>
+                    <button id="btn-clear-cart"
+                        style="background: none; border: none; color: #e74c3c; cursor: pointer; font-weight: bold; text-decoration: underline;">
+                        Vaciar Carrito
+                    </button>
+                </div>
+
                 <button id="btn-checkout" class="btn-primary" style="padding: 12px 24px; font-size: 16px;">
                     Finalizar Compra
                 </button>
             </div>
         </div>
     </main>
+    <div id="checkout-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 500px;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">
+                <h2 style="margin: 0;">Finalizar Compra</h2>
+                <button id="close-checkout"
+                    style="background: none; border: none; font-size: 20px; cursor: pointer; color: #999;">&times;</button>
+            </div>
 
+            <form id="checkout-form">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Dirección de Entrega</label>
+                    <input type="text" name="direccion" required placeholder="Ej: Av. Siempreviva 742"
+                        style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Forma de Pago</label>
+                    <select name="formaPago" required
+                        style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                        <option value="EFECTIVO">Efectivo (Al recibir)</option>
+                        <option value="TARJETA">Tarjeta de Crédito / Débito</option>
+                        <option value="MERCADO_PAGO">MercadoPago</option>
+                    </select>
+                </div>
+
+                <div
+                    style="background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; margin-bottom: 20px; font-size: 13px;">
+                    <strong>Atención:</strong> El costo de envío fijo de $2.500 será sumado a tu total.
+                </div>
+
+                <div class="modal-actions" style="text-align: right;">
+                    <button type="submit" class="btn-success" style="padding: 12px 25px; font-size: 16px; width: 100%;">
+                        Confirmar Pedido
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     <script type="module" src="./cart.ts"></script>
 </body>
+
 </html>

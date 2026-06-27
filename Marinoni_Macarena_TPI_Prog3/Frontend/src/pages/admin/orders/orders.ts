@@ -1,138 +1,166 @@
-import { getPedidos, getProductos } from "../../../services/dataService";
-import { validarSesion, cerrarSesion } from "../../../utils/authGuard";
+import { validarSesion } from "../../../utils/authGuard";
+import { getPedidos, getUsuarios, getProductos } from "../../../services/dataService";
 
-// Protegemos la ruta
 validarSesion('ADMIN');
 
-const contentArea = document.getElementById("admin-content") as HTMLElement;
-const modal = document.getElementById("admin-modal") as HTMLElement;
-const adminForm = document.getElementById("admin-form") as HTMLFormElement;
+const ordersContainer = document.getElementById("admin-orders-list") as HTMLElement;
+const filterSelect = document.getElementById("status-filter") as HTMLSelectElement;
+const modal = document.getElementById("order-modal") as HTMLElement;
+const modalBody = document.getElementById("modal-body") as HTMLElement;
 const modalTitle = document.getElementById("modal-title") as HTMLElement;
-const fields = document.getElementById("modal-fields") as HTMLElement;
 
-// Función auxiliar para normalizar arrays (la misma de tu código original)
-const normalizarLista = (lista: any): any[] => {
-    if (Array.isArray(lista)) return lista;
-    if (lista && typeof lista === 'object') {
-        if (Array.isArray(lista.data)) return lista.data;
-        if (Array.isArray(lista.categorias)) return lista.categorias;
-        if (Array.isArray(lista.content)) return lista.content;
-        const arrayEncontrado = Object.values(lista).find(val => Array.isArray(val));
-        if (arrayEncontrado) return arrayEncontrado as any[];
-    }
-    return [];
-};
+// Variables globales para no hacer fetch en cada filtro
+let todosLosPedidos: any[] = [];
+let todosLosUsuarios: any[] = [];
+let todosLosProductos: any[] = [];
 
-const renderizarPedidos = async () => {
-    contentArea.innerHTML = "<p>Cargando pedidos...</p>";
-    try {
-        const res = await getPedidos();
-        const peds = normalizarLista(res);
-
-        contentArea.innerHTML = `
-            <div class="view-header">
-                <h2>Lista de Pedidos</h2>
-            </div>
-            <div class="pedidos-list">
-                ${peds.map((p: any) => `
-                    <div class="pedido-card" style="cursor: pointer;" data-id="${p.id}">
-                        <div class="pedido-info">
-                            <h4>Pedido #ORD-${p.id}</h4>
-                            <p><strong>Usuario ID:</strong> ${p.idUsuario}</p>
-                            <p style="font-size: 12px; margin-top: 5px;">Fecha: ${p.fecha || 'No registrada'}</p>
-                            <p style="margin-top: 10px; color: #ff5722; font-weight: 500;">
-                                ${p.detalles ? p.detalles.length : 0} producto(s)
-                            </p>
-                        </div>
-                        <div style="display: flex; align-items: center;">
-                            <span class="pedido-price">$${p.total?.toLocaleString('es-AR') || p.total}</span>
-                            <span class="badge-warning">${p.estado}</span>
-                        </div>
-                    </div>
-                `).join('')}
-            </div>`;
-
-        // Agregar listeners a las tarjetas para abrir el detalle
-        document.querySelectorAll(".pedido-card").forEach(card => {
-            card.addEventListener("click", () => {
-                const id = Number(card.getAttribute("data-id"));
-                abrirModalPedido(id);
-            });
-        });
-
-    } catch (error: any) {
-        contentArea.innerHTML = `<p style="color:red;">Error al cargar datos: ${error.message}</p>`;
+const getColorPorEstado = (estado: string) => {
+    switch(estado) {
+        case 'PENDIENTE': return '#f39c12'; 
+        case 'EN_PREPARACION': return '#3498db';
+        case 'ENVIADO': return '#9b59b6';
+        case 'ENTREGADO': return '#2ecc71';
+        default: return '#95a5a6';
     }
 };
 
-const abrirModalPedido = async (id: number) => {
-    fields.innerHTML = "<p>Cargando detalles...</p>";
-    modal.style.display = "flex";
-
+const cargarDatos = async () => {
+    ordersContainer.innerHTML = "<p>Cargando datos del sistema...</p>";
     try {
-        const resPedidos = await getPedidos();
-        const peds = normalizarLista(resPedidos);
-        const pedido = peds.find((p: any) => p.id === id);
+        // F5.4: Fetch a múltiples JSON
+        todosLosPedidos = await getPedidos();
+        todosLosUsuarios = await getUsuarios();
+        todosLosProductos = await getProductos();
+
+        // F5.4: Ordenar por fecha, más recientes primero (Z a A)
+        todosLosPedidos.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+
+        renderizarPedidos("ALL");
+    } catch (error) {
+        ordersContainer.innerHTML = `<p style="color:red;">Error al cargar los pedidos.</p>`;
+    }
+};
+
+const renderizarPedidos = (filtroEstado: string) => {
+    // F5.4: Filtro client-side
+    const pedidosFiltrados = filtroEstado === "ALL" 
+        ? todosLosPedidos 
+        : todosLosPedidos.filter(p => p.estado === filtroEstado);
+
+    if (pedidosFiltrados.length === 0) {
+        ordersContainer.innerHTML = `<div style="text-align:center; padding: 40px; background:white; border-radius:8px; border: 1px solid #eee;">
+            <p style="color:#666; margin:0;">No hay pedidos que coincidan con este estado.</p>
+        </div>`;
+        return;
+    }
+
+    ordersContainer.innerHTML = pedidosFiltrados.map(p => {
+        // F5.4: Cruce de datos para el nombre del cliente
+        const cliente = todosLosUsuarios.find(u => Number(u.id) === Number(p.idUsuario));
+        const nombreCliente = cliente ? `${cliente.nombre} ${cliente.apellido}` : 'Cliente Desconocido';
         
-        const resProds = await getProductos();
-        const todosLosProductos = normalizarLista(resProds);
+        const badgeColor = getColorPorEstado(p.estado);
+        const cantidadProductos = (p.detalles || []).reduce((sum: number, det: any) => sum + det.cantidad, 0);
 
-        if (!pedido) {
-            fields.innerHTML = "<p>Error: No se encontró el pedido.</p>";
-            return;
-        }
-
-        modalTitle.innerText = `Detalle del Pedido #ORD-${pedido.id}`;
-
-        const listaProductosHTML = pedido.detalles ? pedido.detalles.map((det: any) => {
-            const prodReal = todosLosProductos.find((pr: any) => pr.id === det.idProducto);
-            const nombreProducto = prodReal ? prodReal.nombre : `Producto #${det.idProducto}`;
-            return `
-            <div style="display: flex; justify-content: space-between; font-size: 13px; padding-bottom: 5px;">
-                <div><p style="margin:0; font-weight:bold;">${nombreProducto}</p><p style="margin:0; color:#666;">Cantidad: ${det.cantidad}</p></div>
-                <strong style="color: var(--orange-primary);">$${det.subtotal?.toLocaleString('es-AR') || det.subtotal}</strong>
-            </div>`;
-        }).join('') : '<p>Sin detalles de productos.</p>';
-
-        fields.innerHTML = `
-            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 13px;">
-                <p><strong>Usuario ID:</strong> ${pedido.idUsuario}</p>
-                <p><strong>Fecha de Compra:</strong> ${pedido.fecha || 'N/A'}</p>
-                <p><strong>Forma de Pago:</strong> ${pedido.formaPago || 'N/A'}</p>
+        return `
+        <div class="admin-pedido-card" data-id="${p.id}" style="background: white; border: 1px solid #eee; border-radius: 8px; padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+            <div style="flex: 2; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 15px; align-items: center;">
+                <div>
+                    <h4 style="margin: 0; color: var(--orange-primary);">#ORD-${p.id}</h4>
+                    <span style="background: ${badgeColor}; color: white; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; display: inline-block; margin-top: 5px;">
+                        ${p.estado}
+                    </span>
+                </div>
+                <div>
+                    <p style="margin: 0; font-weight: bold; font-size: 15px;">👤 ${nombreCliente}</p>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; color: #888;">📅 ${p.fecha || 'N/A'}</p>
+                </div>
+                <div>
+                    <p style="margin: 0; font-size: 13px; color: #555;">📦 ${cantidadProductos} producto(s)</p>
+                </div>
             </div>
-            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                ${listaProductosHTML}
-                <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
-                <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: var(--orange-primary);"><span>Total:</span><span>$${pedido.total?.toLocaleString('es-AR') || pedido.total}</span></div>
+            <div style="flex: 1; text-align: right; border-left: 1px solid #eee; padding-left: 15px;">
+                <p style="margin: 0; font-size: 12px; color: #888;">Total Pedido</p>
+                <p style="margin: 0; font-size: 20px; font-weight: bold; color: #333;">
+                    $${p.total?.toLocaleString('es-AR') || p.total}
+                </p>
             </div>
-            <div class="form-group" style="flex-direction: row; align-items: center; gap: 10px;">
-                <label style="margin:0;">Cambiar Estado:</label>
-                <select name="estado" style="flex: 1;">
-                    <option value="PENDIENTE" ${pedido.estado === 'PENDIENTE' ? 'selected' : ''}>PENDIENTE</option>
-                    <option value="EN_PREPARACION" ${pedido.estado === 'EN_PREPARACION' ? 'selected' : ''}>EN PREPARACION</option>
-                    <option value="ENVIADO" ${pedido.estado === 'ENVIADO' ? 'selected' : ''}>ENVIADO</option>
-                    <option value="ENTREGADO" ${pedido.estado === 'ENTREGADO' ? 'selected' : ''}>ENTREGADO</option>
-                </select>
-            </div>
+        </div>
         `;
-        adminForm.dataset.id = id.toString();
-    } catch (err: any) {
-        fields.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
-    }
+    }).join('');
+
+    // Listener para abrir modal
+    document.querySelectorAll(".admin-pedido-card").forEach(card => {
+        card.addEventListener("click", () => {
+            const id = Number(card.getAttribute("data-id"));
+            abrirModal(id);
+        });
+    });
 };
 
-// Listeners Generales
-document.getElementById("close-modal")?.addEventListener("click", () => modal.style.display = "none");
-document.getElementById("btn-logout")?.addEventListener("click", () => cerrarSesion());
+const abrirModal = (idPedido: number) => {
+    const pedido = todosLosPedidos.find(p => p.id === idPedido);
+    if (!pedido) return;
 
-adminForm?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(adminForm));
-    console.log(`Actualizando pedido ID: ${adminForm.dataset.id} al estado: ${data.estado}`);
-    // A futuro: fetch() con PUT para actualizar en el backend real
-    modal.style.display = "none";
-    alert("Estado del pedido actualizado (Simulado)");
+    const cliente = todosLosUsuarios.find(u => Number(u.id) === Number(pedido.idUsuario));
+    const nombreCliente = cliente ? `${cliente.nombre} ${cliente.apellido}` : 'Cliente Desconocido';
+    const emailCliente = cliente ? cliente.mail || (cliente as any).email : 'Sin email';
+    
+    modalTitle.innerText = `Detalle del Pedido #ORD-${pedido.id}`;
+    
+    const badgeColor = getColorPorEstado(pedido.estado);
+    const envioConstante = 2500;
+    const subtotal = pedido.total - envioConstante;
+
+    const listaProductosHTML = (pedido.detalles || []).map((det: any) => {
+        const prod = todosLosProductos.find(pr => pr.id === det.idProducto);
+        const nombre = prod ? prod.nombre : `Producto #${det.idProducto}`;
+        return `
+        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #eee;">
+            <span style="font-size: 14px;">${det.cantidad}x ${nombre}</span>
+            <strong style="color: #444; font-size: 14px;">$${det.subtotal?.toLocaleString('es-AR') || det.subtotal}</strong>
+        </div>`;
+    }).join('');
+
+    modalBody.innerHTML = `
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <p style="margin: 0;"><strong>Cliente:</strong> ${nombreCliente}</p>
+                <span style="background: ${badgeColor}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">${pedido.estado}</span>
+            </div>
+            <p style="margin: 0; font-size: 13px; color: #666;"><strong>Email:</strong> ${emailCliente} | <strong>Pago:</strong> ${pedido.formaPago}</p>
+            <p style="margin: 5px 0 0 0; font-size: 13px; color: #666;"><strong>Fecha:</strong> ${pedido.fecha}</p>
+        </div>
+
+        <h4 style="margin: 0 0 10px 0;">Artículos</h4>
+        <div style="max-height: 200px; overflow-y: auto; background: white; border: 1px solid #eee; padding: 10px; border-radius: 6px;">
+            ${listaProductosHTML}
+        </div>
+
+        <div style="margin-top: 15px; text-align: right;">
+            <p style="margin: 5px 0; color: #666; font-size: 14px;">Subtotal: $${subtotal.toLocaleString('es-AR')}</p>
+            <p style="margin: 5px 0; color: #666; font-size: 14px;">Envío: $${envioConstante.toLocaleString('es-AR')}</p>
+            <h3 style="margin: 10px 0 0 0; color: var(--orange-primary);">Total Final: $${pedido.total?.toLocaleString('es-AR') || pedido.total}</h3>
+        </div>
+    `;
+
+    modal.style.display = "flex";
+};
+
+// Eventos
+filterSelect.addEventListener("change", (e) => {
+    const estado = (e.target as HTMLSelectElement).value;
+    renderizarPedidos(estado);
 });
 
-// Inicializar la vista
-renderizarPedidos();
+const cerrarModal = () => modal.style.display = "none";
+document.getElementById("close-modal")?.addEventListener("click", cerrarModal);
+document.getElementById("close-modal-top")?.addEventListener("click", cerrarModal);
+
+document.getElementById("btn-logout")?.addEventListener("click", () => {
+    localStorage.removeItem("user");
+    window.location.href = "/src/pages/auth/login/index.html";
+});
+
+// Arrancar
+cargarDatos();
