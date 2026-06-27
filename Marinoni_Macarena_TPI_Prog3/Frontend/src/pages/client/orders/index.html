@@ -2,35 +2,31 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mis Pedidos - Food Store</title>
-    <link rel="stylesheet" type="text/css" href="/src/css/styles.css">
+    <title>Food Store - Mis Pedidos</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
 </head>
-<body>
-    <header>
+<body class="store-page">
+
+    <header class="main-header">
         <div class="header-container">
-            <h1>Mis Pedidos</h1>
-            <nav>
-                <a href="/src/pages/store/home/index.html">Volver a la Tienda</a>
-                <button id="btn-logout">Cerrar Sesión</button>
+            <a href="/src/pages/store/home/index.html" class="logo">Food<strong>Store</strong></a>
+            <nav class="main-nav">
+                <a href="/src/pages/store/home/index.html" class="nav-link">Inicio</a>
+                <a href="/src/pages/client/orders/index.html" class="nav-link active">Mis Pedidos</a>
+                <a href="/src/pages/store/cart/index.html" class="nav-link">Carrito</a>
+                <a href="#" class="nav-link" id="link-logout" style="color: #ff4757;">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section id="bienvenida">
-            <h2>¡Hola! Bienvenido a tu panel de cliente</h2>
-            <p>Aquí podrás ver el historial de tus compras y el estado de tus pedidos.</p>
-        </section>
-
-        <section id="lista-pedidos">
-            <p>Cargando tus pedidos...</p>
-        </section>
+    <main class="orders-container" style="max-width: 800px; margin: 40px auto; padding: 20px;">
+        <h2>🛍️ Mis Pedidos</h2>
+        <div id="my-orders-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+            </div>
     </main>
 
-    <footer class="main-footer">
-        <p>&copy; 2026 Food Store. Todos los derechos reservados.</p>
-    </footer>
-
-    <script type="module" src="./client_home.ts"></script>
+    <script type="module" src="./orders.ts"></script>
 </body>
 </html>

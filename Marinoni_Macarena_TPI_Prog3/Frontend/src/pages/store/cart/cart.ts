@@ -1,68 +1,80 @@
-import { getCart, saveCart, clearCart, removeFromCart } from "../../../utils/localStorage";
-import type { CartItem } from "../../../types/cartItem";
 import { validarSesion } from "../../../utils/authGuard";
 
-// --- F4.2: VALIDACIÓN DE ROL ---
-// Solo los clientes (USUARIO) tienen acceso al carrito de compras.
-const usuarioLogueado = validarSesion('USUARIO');
+// Protegemos la ruta para que no entren admins ni deslogueados
+validarSesion('CLIENT');
 
-const btnVaciar = document.getElementById("btn-vaciar");
+const cartItemsContainer = document.getElementById("cart-items") as HTMLElement;
+const cartTotalElement = document.getElementById("cart-total") as HTMLElement;
 
-// (Asumimos que aquí tienes tu función renderCart que dibuja el HTML)
-// const renderCart = () => { ... }
+// Función para renderizar el carrito leyendo del LocalStorage
+const renderizarCarrito = () => {
+    const carrito = JSON.parse(localStorage.getItem("cart") || "[]");
+    
+    if (carrito.length === 0) {
+        cartItemsContainer.innerHTML = `<p style="text-align:center; padding: 40px; color:#666;">Tu carrito está vacío.</p>`;
+        cartTotalElement.innerText = "0";
+        return;
+    }
 
-/**
- * Asigna los eventos a los botones generados dinámicamente
- */
-const asignarEventos = () => {
-    const cart = getCart() as CartItem[];
+    let total = 0;
+    cartItemsContainer.innerHTML = "";
 
-    // Botones de cantidad (+ y -)
-    document.querySelectorAll(".btn-qty").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            const target = e.target as HTMLButtonElement;
-            const index = Number(target.dataset.index);
-            const action = target.dataset.action;
+    carrito.forEach((item: any, index: number) => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
 
-            if (action === "plus") {
-                cart[index].cantidad = (cart[index].cantidad || 1) + 1;
-            } else if (action === "minus" && cart[index].cantidad > 1) {
-                cart[index].cantidad -= 1;
-            }
-
-            saveCart(cart); // Guardamos el array actualizado en localStorage
-            // renderCart();   // Refrescamos la vista (Descomenta cuando tengas la función en este archivo)
-        });
+        const row = document.createElement("div");
+        row.style.cssText = "display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee;";
+        
+        row.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 15px; flex: 2;">
+                <img src="/src/data/assets/${item.imagen}" alt="${item.nombre}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;" onerror="this.src='/src/data/assets/napo.jpg'">
+                <div>
+                    <h4 style="margin: 0;">${item.nombre}</h4>
+                    <p style="margin: 5px 0 0 0; color: #666;">$${item.precio.toLocaleString('es-AR')}</p>
+                </div>
+            </div>
+            <div style="flex: 1; text-align: center;">
+                <span style="font-weight: bold;">Cant: ${item.cantidad}</span>
+            </div>
+            <div style="flex: 1; text-align: right; font-weight: bold; color: var(--orange-primary);">
+                $${subtotal.toLocaleString('es-AR')}
+            </div>
+            <button class="btn-delete" data-index="${index}" style="margin-left: 15px;">X</button>
+        `;
+        cartItemsContainer.appendChild(row);
     });
 
-    // Enlaces de "Eliminar"
-    document.querySelectorAll(".btn-delete-text").forEach(btn => {
+    cartTotalElement.innerText = total.toLocaleString('es-AR');
+
+    // Botones para eliminar un producto del carrito
+    document.querySelectorAll(".btn-delete").forEach(btn => {
         btn.addEventListener("click", (e) => {
-            const target = e.target as HTMLButtonElement;
-            const index = Number(target.dataset.index);
-            
-            // Usamos tu función existente de utils pasándole el ID
-            const itemAEliminar = cart[index];
-            if (itemAEliminar && itemAEliminar.id) {
-                removeFromCart(itemAEliminar.id); 
-            }
-            
-            // renderCart(); // Refrescamos la vista
+            const index = Number((e.target as HTMLElement).getAttribute("data-index"));
+            carrito.splice(index, 1); // Borramos el elemento
+            localStorage.setItem("cart", JSON.stringify(carrito));
+            renderizarCarrito(); // Volvemos a pintar
         });
     });
 };
 
-// Botón Vaciar Carrito completo
-btnVaciar?.addEventListener("click", () => {
-    if (confirm("¿Estás seguro de que deseas vaciar todo el carrito?")) {
-        clearCart();
-        // renderCart(); // Refrescamos la vista
-    }
+// Cierre de sesión (igual que en el home)
+document.getElementById("link-logout")?.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("user");
+    window.location.href = "/src/pages/auth/login/index.html";
 });
 
-// Inicialización al cargar la página (solo si pasó la validación)
-if (usuarioLogueado) {
-    // renderCart(); 
-    // Si tu renderCart no llama a asignarEventos internamente, llámalo aquí:
-    asignarEventos();
-}
+// Botón de Checkout
+document.getElementById("btn-checkout")?.addEventListener("click", () => {
+    const carrito = JSON.parse(localStorage.getItem("cart") || "[]");
+    if (carrito.length === 0) {
+        alert("Agrega productos al carrito antes de finalizar la compra.");
+        return;
+    }
+    // ACÁ LUEGO CONECTAREMOS EL HITO F5 (Checkout Modal)
+    alert("Iniciando proceso de pago... (A construir en el próximo paso)");
+});
+
+// Inicializar
+renderizarCarrito();

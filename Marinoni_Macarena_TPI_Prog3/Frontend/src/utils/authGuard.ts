@@ -1,6 +1,6 @@
 /**
  * F4.1 y F4.2: Valida la sesión y los permisos de rol.
- * @param rolRequerido 'ADMIN' o 'USUARIO'. Si no se pasa, solo verifica que esté logueado.
+ * @param rolRequerido 'ADMIN' o 'CLIENT'. Si no se pasa, solo verifica que esté logueado.
  */
 export const validarSesion = (rolRequerido?: string) => {
     const userStr = localStorage.getItem('user');
@@ -19,7 +19,7 @@ export const validarSesion = (rolRequerido?: string) => {
         
         // Redirección inteligente según su rol real
         if (usuario.rol === 'ADMIN') {
-            window.location.href = '/src/pages/admin/home/index.html';
+            window.location.href = '/src/pages/admin/adminHome/index.html';
         } else {
             window.location.href = '/src/pages/store/home/index.html';
         }

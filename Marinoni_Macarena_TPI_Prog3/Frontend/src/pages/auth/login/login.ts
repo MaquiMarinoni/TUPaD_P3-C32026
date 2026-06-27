@@ -1,8 +1,4 @@
 import type { IUser } from "../../../types/IUser";
-import type { Rol } from "../../../types/Rol";
-import { navigate } from "../../../utils/navigate";
-import { saveLoggedUser } from "../../../utils/localStorage";
-// IMPORTAMOS EL SERVICIO DE DATOS ACTUALIZADO
 import { autenticarUsuario } from "../../../services/dataService";
 
 const form = document.getElementById("login-form") as HTMLFormElement;
@@ -20,34 +16,29 @@ form?.addEventListener("submit", async (e: SubmitEvent) => {
         return;
     }
 
-    // F4.1: Autenticamos consultando la lista real de usuarios obtenida por fetch
     const usuarioValidado = await autenticarUsuario(valueEmail, valuePassword);
 
     if (usuarioValidado) {
-        // Creamos el objeto del usuario logueado mapeándolo a tu interfaz IUser
-        // F4.1: Se guarda SIN la contraseña ("password" se pasa como un string vacío o se omite)
         const user: IUser = {
-            id: usuarioValidado.id,
-            nombre: usuarioValidado.nombre || usuarioValidado.mail.split('@')[0], // Fallback por si no viene el campo nombre
-            email: valueEmail,
-            role: (usuarioValidado.rol || usuarioValidado.role) as Rol, // Soporte si tu JSON usa 'rol' o 'role'
-            password: "", // REGLA F4.1: No persistir contraseña en localStorage
-            loggedIn: true
+            id: usuarioValidado.id!,
+            nombre: usuarioValidado.nombre || "",
+            apellido: usuarioValidado.apellido || "",
+            mail: usuarioValidado.mail || valueEmail,
+            celular: usuarioValidado.celular || "",
+            rol: usuarioValidado.rol || "CLIENT"
         };
 
-        // Guardamos el usuario utilizando tu función utilitaria actual
-        saveLoggedUser(user);
+        // LA SOLUCIÓN AL REBOTE: Guardamos estrictamente con la clave 'user'
+        localStorage.setItem('user', JSON.stringify(user));
 
         alert(`¡Bienvenido/a ${user.nombre}!`);
 
-        // F4.1 y F4.2: Redirección estricta según el ROL validado
-        if (user.role.toLowerCase() === "admin") {
-            navigate("/src/pages/admin/home/index.html");
+        if (user.rol === "ADMIN") {
+            window.location.href = "/src/pages/admin/adminHome/index.html";
         } else {
-            navigate("/"); // Redirige a la tienda / Home público
+            window.location.href = "/src/pages/store/home/index.html";
         }
     } else {
-        // Alerta de credenciales inválidas tal cual lo tenías implementado
         alert("Usuario o contraseña incorrectos.");
     }
 });

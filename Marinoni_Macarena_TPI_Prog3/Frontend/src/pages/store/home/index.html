@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Store - Catálogo</title>
     <link rel="stylesheet" href="../../../css/styles.css">
-
 </head>
+
 <body class="store-page">
 
     <header class="main-header">
         <div class="header-container">
-            <a href="../../../../index.html" class="logo">Food<strong>Store</strong></a>
+            <a href="/src/pages/store/home/index.html" class="logo">Food<strong>Store</strong></a>
             <nav class="main-nav">
-                <a href="../../../../index.html" class="nav-link">Inicio</a>
-                <a href="../../client/home/index.html" class="nav-link">Mis Pedidos</a>
-                <a href="../cart/index.html" class="nav-link">Carrito</a>
+                <a href="/src/pages/store/home/index.html" class="nav-link">Inicio</a>
+                <a href="/src/pages/client/orders/index.html" class="nav-link" id="link-mis-pedidos">Mis Pedidos</a>
+                <a href="/src/pages/store/cart/index.html" class="nav-link" id="link-carrito">Carrito</a>
+
+                <a href="/src/pages/admin/adminHome/index.html" class="nav-link" id="link-admin"
+                    style="display: none; color: var(--orange-primary); font-weight: bold;">
+                    <i class="fas fa-cog"></i> Panel Admin
+                </a>
+                <a href="#" class="nav-link" id="link-logout" style="display: none; color: #ff4757;">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
             </nav>
             <div class="header-search">
                 <form class="search-form" id="search-form">
@@ -24,7 +33,7 @@
                 </form>
             </div>
             <nav class="header-icons">
-                <a href="/src/pages/store/cart/index.html" class="cart-link-container">
+                <a href="/src/pages/store/cart/index.html" class="cart-link-container" id="cart-icon-container">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" class="cart-badge">0</span>
                 </a>
@@ -33,17 +42,11 @@
     </header>
 
     <main class="store-layout-container">
-        
         <aside class="store-sidebar">
             <div class="filter-section">
                 <h3 class="sidebar-title">Categorías</h3>
                 <ul class="category-list" id="category-filter">
-                    <li>
-                        <a href="#" class="enlace-categoria active" data-category="all">
-                            Todos los productos
-                        </a>
-                    </li>
-                    
+                    <li><a href="#" class="enlace-categoria active" data-category="all">Todos los productos</a></li>
                     <li><a href="#" class="enlace-categoria" data-category="1">Pizzas</a></li>
                     <li><a href="#" class="enlace-categoria" data-category="2">Hamburguesas</a></li>
                     <li><a href="#" class="enlace-categoria" data-category="3">Bebidas</a></li>
@@ -59,21 +62,7 @@
                 <h2 id="category-title">Todos los productos</h2>
                 <span class="product-count" id="product-count">Mostrando 0 productos</span>
             </div>
-
-            <div class="product-grid" id="product-container">
-                <div class="producto-card">
-                    <img src="../../../data/assets/napo.jpg" alt="Pizza Napolitana">
-                    <h4>Pizza Napolitana</h4>
-                    <p>$8500</p>
-                    <button class="btn-primary">Agregar al Carrito</button>
-                </div>
-                <div class="producto-card">
-                    <img src="../../../data/assets/b.clasica.jpg" alt="Hamburguesa Clasica">
-                    <h4>Hamburguesa Clasica</h4>
-                    <p>$7500</p>
-                    <button class="btn-primary">Agregar al Carrito</button>
-                </div>
-            </div>
+            <div class="product-grid" id="product-container"></div>
         </section>
     </main>
 
@@ -84,4 +73,5 @@
 
     <script type="module" src="./home.ts"></script>
 </body>
-</html>
+
+</html>s

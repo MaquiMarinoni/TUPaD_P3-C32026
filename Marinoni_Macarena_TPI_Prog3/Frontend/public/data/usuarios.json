@@ -3,7 +3,7 @@
     "id": 1,
     "nombre": "Macarena",
     "apellido": "Marinoni",
-    "mail": "marinonimacarena@gmail.com",
+    "email": "marinonimacarena@gmail.com",
     "celular": "3425550000",
     "password": "1234",
     "rol": "admin"
@@ -12,9 +12,9 @@
     "id": 2,
     "nombre": "Cliente",
     "apellido": "Prueba",
-    "mail": "marinonimacarena0@gmail.com",
+    "email": "marinonimacarena0@gmail.com",
     "celular": "3421234567",
     "password": "1234",
-    "rol": "client"
+    "rol": "CLIENT"
   }
 ]

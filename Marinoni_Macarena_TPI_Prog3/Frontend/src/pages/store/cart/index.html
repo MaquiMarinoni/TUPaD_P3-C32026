@@ -2,58 +2,46 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Tu Carrito - Food Store</title>
+    <title>Food Store - Mi Carrito</title>
     <link rel="stylesheet" href="../../../css/styles.css">
 </head>
-
-<body class="cart-page">
+<body class="store-page">
 
     <header class="main-header">
         <div class="header-container">
-            <a href="../../../../index.html" class="logo">Food<strong>Store</strong></a>
+            <a href="/src/pages/store/home/index.html" class="logo">Food<strong>Store</strong></a>
             <nav class="main-nav">
-                <a href="../../../../index.html" class="nav-link">Inicio</a>
-                <a href="../home/index.html" class="nav-link">Volver al Catalogo</a>
+                <a href="/src/pages/store/home/index.html" class="nav-link">Inicio</a>
+                <a href="/src/pages/client/orders/index.html" class="nav-link">Mis Pedidos</a>
+                <a href="/src/pages/store/cart/index.html" class="nav-link active">Carrito</a>
+                <a href="#" class="nav-link" id="link-logout" style="color: #ff4757;">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
             </nav>
         </div>
     </header>
 
-    <main class="cart-main-container">
-        <h1 class="cart-title-main">Mi Carrito</h1>
+    <main class="cart-container" style="max-width: 800px; margin: 40px auto; padding: 20px;">
+        <h2>🛒 Mi Carrito</h2>
+        
+        <div id="cart-items" style="margin-top: 20px;">
+            </div>
 
-        <div class="cart-layout">
-            <section class="cart-items-list" id="cart-items-container">
-                </section>
-
-            <aside class="cart-sidebar-summary">
-                <div class="summary-card-modern">
-                    <h3>Resumen</h3>
-                    <div class="summary-details">
-                        <div class="summary-line">
-                            <span>Subtotal</span>
-                            <span id="cart-subtotal">$0</span>
-                        </div>
-                        <div class="summary-line total-big">
-                            <span>Total</span>
-                            <span id="cart-total-final">$0</span>
-                        </div>
-                    </div>
-                    <button class="btn-checkout-modern" disabled>Finalizar compra</button>
-                    <p class="checkout-warning">
-                        <i class="fas fa-exclamation-triangle"></i> 
-                    </p>
-                    <button id="btn-vaciar-carrito" class="btn-clear-cart">Vaciar carrito</button>
-                </div>
-            </aside>
+        <div class="cart-summary" style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: right;">
+            <h3 style="margin-bottom: 15px;">Total: $<span id="cart-total">0</span></h3>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="/src/pages/store/home/index.html" style="color: var(--orange-primary); text-decoration: none; font-weight: bold;">
+                    <i class="fas fa-arrow-left"></i> Seguir Comprando
+                </a>
+                
+                <button id="btn-checkout" class="btn-primary" style="padding: 12px 24px; font-size: 16px;">
+                    Finalizar Compra
+                </button>
+            </div>
         </div>
     </main>
 
-    <footer class="main-footer">
-        <p>&copy; 2026 Food Store. Todos los derechos reservados.</p>
-        <p>Contactanos: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
-    </footer>
-
     <script type="module" src="./cart.ts"></script>
-
 </body>
 </html>
