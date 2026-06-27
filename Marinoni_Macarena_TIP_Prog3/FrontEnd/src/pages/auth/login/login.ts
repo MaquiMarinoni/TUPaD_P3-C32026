@@ -1,47 +1,53 @@
 import type { IUser } from "../../../types/IUser";
 import type { Rol } from "../../../types/Rol";
 import { navigate } from "../../../utils/navigate";
-// IMPORTAMOS EL SERVICIO
-import { getUsers, saveLoggedUser } from "../../../utils/localStorage";
+import { saveLoggedUser } from "../../../utils/localStorage";
+// IMPORTAMOS EL SERVICIO DE DATOS ACTUALIZADO
+import { autenticarUsuario } from "../../../services/dataService";
 
 const form = document.getElementById("login-form") as HTMLFormElement;
 const inputEmail = document.getElementById("email") as HTMLInputElement;
 const inputPassword = document.getElementById("password") as HTMLInputElement;
 
-form?.addEventListener("submit", (e: SubmitEvent) => {
+form?.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
 
-    const valueEmail = inputEmail.value;
-    const valuePassword = inputPassword.value;
+    const valueEmail = inputEmail.value.trim();
+    const valuePassword = inputPassword.value.trim();
 
-    // USAMOS EL SERVICIO para traer la lista de usuarios registrados
-    const usuarios = getUsers(); 
+    if (!valueEmail || !valuePassword) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
 
-    // Verificamos credenciales en el array de usuarios del LocalStorage
-    const usuarioValidado = usuarios.find(u => u.email === valueEmail && u.password === valuePassword);
+    // F4.1: Autenticamos consultando la lista real de usuarios obtenida por fetch
+    const usuarioValidado = await autenticarUsuario(valueEmail, valuePassword);
 
     if (usuarioValidado) {
-        // Creamos el objeto del usuario que acaba de loguearse
+        // Creamos el objeto del usuario logueado mapeándolo a tu interfaz IUser
+        // F4.1: Se guarda SIN la contraseña ("password" se pasa como un string vacío o se omite)
         const user: IUser = {
-            nombre: usuarioValidado.nombre, // Mantenemos el nombre si existe
+            id: usuarioValidado.id,
+            nombre: usuarioValidado.nombre || usuarioValidado.mail.split('@')[0], // Fallback por si no viene el campo nombre
             email: valueEmail,
-            role: usuarioValidado.role as Rol, 
-            password: valuePassword, // Mantenemos la estructura de tu interfaz
+            role: (usuarioValidado.rol || usuarioValidado.role) as Rol, // Soporte si tu JSON usa 'rol' o 'role'
+            password: "", // REGLA F4.1: No persistir contraseña en localStorage
             loggedIn: true
         };
 
-        // Guardamos el usuario en 'loggedUser' para que la app sepa quién entró
+        // Guardamos el usuario utilizando tu función utilitaria actual
         saveLoggedUser(user);
 
-        alert(`¡Bienvenido/a ${usuarioValidado.nombre || ''}!`);
+        alert(`¡Bienvenido/a ${user.nombre}!`);
 
-        // Redirección según el ROL
-        if (user.role === "admin") {
+        // F4.1 y F4.2: Redirección estricta según el ROL validado
+        if (user.role.toLowerCase() === "admin") {
             navigate("/src/pages/admin/home/index.html");
         } else {
-            navigate("/");
+            navigate("/"); // Redirige a la tienda / Home público
         }
     } else {
+        // Alerta de credenciales inválidas tal cual lo tenías implementado
         alert("Usuario o contraseña incorrectos.");
     }
 });

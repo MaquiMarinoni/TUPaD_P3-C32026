@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Store - Catálogo</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
+</head>
+
+<body class="store-page">
+
+    <header class="main-header">
+        <div class="header-container">
+            <a href="/src/pages/store/home/index.html" class="logo">Food<strong>Store</strong></a>
+            <nav class="main-nav">
+                <a href="/src/pages/store/home/index.html" class="nav-link">Inicio</a>
+                <a href="/src/pages/client/orders/index.html" class="nav-link" id="link-mis-pedidos">Mis Pedidos</a>
+                <a href="/src/pages/store/cart/index.html" class="nav-link" id="link-carrito">Carrito</a>
+
+                <a href="/src/pages/admin/adminHome/index.html" class="nav-link" id="link-admin"
+                    style="display: none; color: var(--orange-primary); font-weight: bold;">
+                    <i class="fas fa-cog"></i> Panel Admin
+                </a>
+                <a href="#" class="nav-link" id="link-logout" style="display: none; color: #ff4757;">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
+            </nav>
+            <div class="header-search">
+                <form class="search-form" id="search-form">
+                    <input type="text" id="search-input" placeholder="¿Qué buscas hoy?">
+                    <i class="fas fa-search"></i>
+                </form>
+            </div>
+            <nav class="header-icons">
+                <a href="/src/pages/store/cart/index.html" class="cart-link-container" id="cart-icon-container">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="store-layout-container">
+        <aside class="store-sidebar">
+            <div class="filter-section">
+                <h3 class="sidebar-title">Categorías</h3>
+                <ul class="category-list" id="category-filter">
+                    <li>
+                        <p style="padding: 10px; color: #666;">Cargando categorías...</p>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <section class="store-main-content">
+            <div class="content-header"
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h2 id="category-title" style="margin: 0;">Todos los productos</h2>
+
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <span class="product-count" id="product-count">Mostrando 0 productos</span>
+
+                    <select id="sort-select"
+                        style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-family: inherit;">
+                        <option value="default">Ordenar por...</option>
+                        <option value="name-asc">Nombre (A - Z)</option>
+                        <option value="name-desc">Nombre (Z - A)</option>
+                        <option value="price-asc">Menor precio</option>
+                        <option value="price-desc">Mayor precio</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="product-grid" id="product-container"></div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Food Store. Todos los derechos reservados.</p>
+        <p>Contactanos: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+    </footer>
+
+    <script type="module" src="./home.ts"></script>
+</body>
+
+</html>

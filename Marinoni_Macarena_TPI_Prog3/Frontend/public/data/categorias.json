@@ -1,0 +1,8 @@
+[
+  { "id": 1, "eliminado": false, "createdAt": "2024-01-15T10:00:00", "nombre": "Pizzas", "descripcion": "Pizzas artesanales con masa fresca", "imagen": "napo.jpg" },
+  { "id": 2, "eliminado": false, "createdAt": "2024-01-15T10:05:00", "nombre": "Hamburguesas", "descripcion": "Hamburguesas gourmet con ingredientes frescos", "imagen": "b.clasica.jpg" },
+  { "id": 3, "eliminado": false, "createdAt": "2024-01-16T09:00:00", "nombre": "Bebidas", "descripcion": "Gaseosas, jugos y bebidas frías", "imagen": "coca.bot.jpg" },
+  { "id": 4, "eliminado": false, "createdAt": "2024-01-16T09:30:00", "nombre": "Postres", "descripcion": "Tortas, helados y dulces artesanales", "imagen": "helado.jpg" },
+  { "id": 5, "eliminado": false, "createdAt": "2024-01-17T08:00:00", "nombre": "Empanadas", "descripcion": "Empanadas horneadas y fritas de distintos sabores", "imagen": "emp.carne.jpg" },
+  { "id": 6, "eliminado": false, "createdAt": "2024-01-17T08:30:00", "nombre": "Ensaladas", "descripcion": "Ensaladas frescas y saludables", "imagen": "e.mixta.jpg" }
+]

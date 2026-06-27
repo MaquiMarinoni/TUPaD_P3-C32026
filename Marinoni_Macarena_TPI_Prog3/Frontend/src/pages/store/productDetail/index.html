@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Store - Detalle del Producto</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
+</head>
+<body class="store-page">
+    <header class="main-header">
+        <div class="header-container">
+            <a href="/src/pages/store/home/index.html" class="logo">Food<strong>Store</strong></a>
+            <nav class="main-nav">
+                <a href="/src/pages/store/home/index.html" class="nav-link">Catálogo</a>
+                <a href="/src/pages/client/orders/index.html" class="nav-link">Mis Pedidos</a>
+                <a href="/src/pages/store/cart/index.html" class="nav-link">Carrito</a>
+                <a href="#" class="nav-link" id="link-logout" style="color: #ff4757;">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
+            </nav>
+            <nav class="header-icons">
+                <a href="/src/pages/store/cart/index.html" class="cart-link-container" id="cart-icon-container">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="store-layout-container" style="justify-content: center; padding: 40px 20px;">
+        <div id="product-detail-container" style="max-width: 900px; width: 100%; display: flex; gap: 40px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <p>Cargando detalle...</p>
+        </div>
+    </main>
+
+    <script type="module" src="./productDetail.ts"></script>
+</body>
+</html>
