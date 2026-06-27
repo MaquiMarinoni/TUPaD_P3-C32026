@@ -72,21 +72,44 @@ export const getUsuarios = async (): Promise<IUser[]> => {
     }
 };
 
+// ==========================================
+// PEDIDOS (CRUD ESTADOS - F6.3)
+// ==========================================
 export const getPedidos = async (): Promise<any[]> => {
     try {
-        // 1. Traemos el historial fijo del JSON
         const res = await fetch('/data/pedidos.json');
         const pedidosBase = await res.json();
-
-        // 2. Traemos los pedidos nuevos que hicimos recién en la página
         const pedidosNuevos = JSON.parse(localStorage.getItem('crud_pedidos') || '[]');
 
-        // 3. Juntamos los dos mundos y los devolvemos
-        return [...pedidosBase, ...pedidosNuevos];
+        // F6.3: Usamos un Map para fusionar. Si editamos el estado de un pedido viejo, el local sobrescribe al del JSON.
+        const map = new Map();
+        pedidosBase.forEach((p: any) => map.set(p.id, p));
+        pedidosNuevos.forEach((p: any) => map.set(p.id, p));
+
+        return Array.from(map.values());
     } catch (error) {
-        console.error("Error al cargar pedidos:", error);
-        // Si falla el JSON, al menos devolvemos los locales
         return JSON.parse(localStorage.getItem('crud_pedidos') || '[]');
+    }
+};
+
+export const updateEstadoPedido = async (id: number, nuevoEstado: string) => {
+    const todosLosPedidos = await getPedidos();
+    const pedido = todosLosPedidos.find((p: any) => p.id === id);
+    
+    if (pedido) {
+        pedido.estado = nuevoEstado; // Actualizamos
+        
+        // Lo guardamos en el localStorage
+        const locales = JSON.parse(localStorage.getItem('crud_pedidos') || '[]');
+        const index = locales.findIndex((p: any) => p.id === id);
+        
+        if (index >= 0) {
+            locales[index] = pedido;
+        } else {
+            locales.push(pedido);
+        }
+        
+        localStorage.setItem('crud_pedidos', JSON.stringify(locales));
     }
 };
 

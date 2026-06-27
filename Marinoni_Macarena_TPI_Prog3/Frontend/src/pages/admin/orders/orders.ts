@@ -1,5 +1,5 @@
 import { validarSesion } from "../../../utils/authGuard";
-import { getPedidos, getUsuarios, getProductos } from "../../../services/dataService";
+import { getPedidos, getUsuarios, getProductos, updateEstadoPedido } from "../../../services/dataService";
 
 validarSesion('ADMIN');
 
@@ -9,7 +9,6 @@ const modal = document.getElementById("order-modal") as HTMLElement;
 const modalBody = document.getElementById("modal-body") as HTMLElement;
 const modalTitle = document.getElementById("modal-title") as HTMLElement;
 
-// Variables globales para no hacer fetch en cada filtro
 let todosLosPedidos: any[] = [];
 let todosLosUsuarios: any[] = [];
 let todosLosProductos: any[] = [];
@@ -27,22 +26,20 @@ const getColorPorEstado = (estado: string) => {
 const cargarDatos = async () => {
     ordersContainer.innerHTML = "<p>Cargando datos del sistema...</p>";
     try {
-        // F5.4: Fetch a múltiples JSON
         todosLosPedidos = await getPedidos();
         todosLosUsuarios = await getUsuarios();
         todosLosProductos = await getProductos();
 
-        // F5.4: Ordenar por fecha, más recientes primero (Z a A)
         todosLosPedidos.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-
-        renderizarPedidos("ALL");
+        
+        // Volvemos a aplicar el filtro actual
+        renderizarPedidos(filterSelect.value);
     } catch (error) {
         ordersContainer.innerHTML = `<p style="color:red;">Error al cargar los pedidos.</p>`;
     }
 };
 
 const renderizarPedidos = (filtroEstado: string) => {
-    // F5.4: Filtro client-side
     const pedidosFiltrados = filtroEstado === "ALL" 
         ? todosLosPedidos 
         : todosLosPedidos.filter(p => p.estado === filtroEstado);
@@ -55,10 +52,8 @@ const renderizarPedidos = (filtroEstado: string) => {
     }
 
     ordersContainer.innerHTML = pedidosFiltrados.map(p => {
-        // F5.4: Cruce de datos para el nombre del cliente
         const cliente = todosLosUsuarios.find(u => Number(u.id) === Number(p.idUsuario));
         const nombreCliente = cliente ? `${cliente.nombre} ${cliente.apellido}` : 'Cliente Desconocido';
-        
         const badgeColor = getColorPorEstado(p.estado);
         const cantidadProductos = (p.detalles || []).reduce((sum: number, det: any) => sum + det.cantidad, 0);
 
@@ -89,7 +84,6 @@ const renderizarPedidos = (filtroEstado: string) => {
         `;
     }).join('');
 
-    // Listener para abrir modal
     document.querySelectorAll(".admin-pedido-card").forEach(card => {
         card.addEventListener("click", () => {
             const id = Number(card.getAttribute("data-id"));
@@ -122,11 +116,22 @@ const abrirModal = (idPedido: number) => {
         </div>`;
     }).join('');
 
+    // F6.3: Agregamos el selector de estado dinámico
     modalBody.innerHTML = `
         <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <p style="margin: 0;"><strong>Cliente:</strong> ${nombreCliente}</p>
-                <span style="background: ${badgeColor}; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">${pedido.estado}</span>
+                
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <label style="font-size: 12px; font-weight: bold;">Estado:</label>
+                    <select id="modal-status-select" style="background: ${badgeColor}; color: white; padding: 5px; border-radius: 4px; border: none; font-weight: bold; outline: none; cursor: pointer;">
+                        <option value="PENDIENTE" ${pedido.estado === 'PENDIENTE' ? 'selected' : ''} style="background: white; color: black;">PENDIENTE</option>
+                        <option value="EN_PREPARACION" ${pedido.estado === 'EN_PREPARACION' ? 'selected' : ''} style="background: white; color: black;">EN PREPARACIÓN</option>
+                        <option value="ENVIADO" ${pedido.estado === 'ENVIADO' ? 'selected' : ''} style="background: white; color: black;">ENVIADO</option>
+                        <option value="ENTREGADO" ${pedido.estado === 'ENTREGADO' ? 'selected' : ''} style="background: white; color: black;">ENTREGADO</option>
+                    </select>
+                </div>
+
             </div>
             <p style="margin: 0; font-size: 13px; color: #666;"><strong>Email:</strong> ${emailCliente} | <strong>Pago:</strong> ${pedido.formaPago}</p>
             <p style="margin: 5px 0 0 0; font-size: 13px; color: #666;"><strong>Fecha:</strong> ${pedido.fecha}</p>
@@ -142,12 +147,35 @@ const abrirModal = (idPedido: number) => {
             <p style="margin: 5px 0; color: #666; font-size: 14px;">Envío: $${envioConstante.toLocaleString('es-AR')}</p>
             <h3 style="margin: 10px 0 0 0; color: var(--orange-primary);">Total Final: $${pedido.total?.toLocaleString('es-AR') || pedido.total}</h3>
         </div>
+        
+        <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #eee; display: flex; justify-content: flex-end;">
+            <button type="button" id="btn-save-status" class="btn-success" style="padding: 8px 20px;">💾 Guardar Estado</button>
+        </div>
     `;
 
     modal.style.display = "flex";
+
+    // F6.3: Guardar estado
+    document.getElementById("btn-save-status")?.addEventListener("click", async () => {
+        const selectElement = document.getElementById("modal-status-select") as HTMLSelectElement;
+        const nuevoEstado = selectElement.value;
+        
+        if (nuevoEstado !== pedido.estado) {
+            await updateEstadoPedido(pedido.id, nuevoEstado);
+            cerrarModal();
+            await cargarDatos(); // Recarga la vista con el estado actualizado
+        } else {
+            cerrarModal(); // Si no cambió nada, solo cerramos
+        }
+    });
+
+    // Cambiar color del select al cambiar de opción
+    document.getElementById("modal-status-select")?.addEventListener("change", (e) => {
+        const selectElement = e.target as HTMLSelectElement;
+        selectElement.style.background = getColorPorEstado(selectElement.value);
+    });
 };
 
-// Eventos
 filterSelect.addEventListener("change", (e) => {
     const estado = (e.target as HTMLSelectElement).value;
     renderizarPedidos(estado);
@@ -162,5 +190,4 @@ document.getElementById("btn-logout")?.addEventListener("click", () => {
     window.location.href = "/src/pages/auth/login/index.html";
 });
 
-// Arrancar
 cargarDatos();
