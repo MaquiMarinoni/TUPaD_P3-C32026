@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Tu Carrito - Food Store</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
+</head>
+
+<body class="cart-page">
+
+    <header class="main-header">
+        <div class="header-container">
+            <a href="../../../../index.html" class="logo">Food<strong>Store</strong></a>
+            <nav class="main-nav">
+                <a href="../../../../index.html" class="nav-link">Inicio</a>
+                <a href="../home/index.html" class="nav-link">Volver al Catalogo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="cart-main-container">
+        <h1 class="cart-title-main">Mi Carrito</h1>
+
+        <div class="cart-layout">
+            <section class="cart-items-list" id="cart-items-container">
+                </section>
+
+            <aside class="cart-sidebar-summary">
+                <div class="summary-card-modern">
+                    <h3>Resumen</h3>
+                    <div class="summary-details">
+                        <div class="summary-line">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">$0</span>
+                        </div>
+                        <div class="summary-line total-big">
+                            <span>Total</span>
+                            <span id="cart-total-final">$0</span>
+                        </div>
+                    </div>
+                    <button class="btn-checkout-modern" disabled>Finalizar compra</button>
+                    <p class="checkout-warning">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                    </p>
+                    <button id="btn-vaciar-carrito" class="btn-clear-cart">Vaciar carrito</button>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 Food Store. Todos los derechos reservados.</p>
+        <p>Contactanos: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+    </footer>
+
+    <script type="module" src="./cart.ts"></script>
+
+</body>
+</html>
