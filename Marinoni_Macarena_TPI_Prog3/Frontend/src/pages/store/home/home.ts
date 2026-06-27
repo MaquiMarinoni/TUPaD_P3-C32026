@@ -94,8 +94,9 @@ listaCategorias.forEach(enlace => {
         if (categoriaId === "all") {
             renderizarProductos(allProducts);
         } else {
+            // CORRECCIÓN PARA EL F2: Buscamos usando el identificador plano categoriaId
             const filtrados = allProducts.filter(p => 
-                p.categorias.some(c => c.id === Number(categoriaId))
+                p.categoriaId === Number(categoriaId)
             );
             renderizarProductos(filtrados);
         }
