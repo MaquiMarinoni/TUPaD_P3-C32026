@@ -12,8 +12,7 @@ export const getProductos = async (): Promise<Product[]> => {
 };
 
 export const getCategorias = async (): Promise<ICategory[]> => {
-    // CORREGIDO: categoria.json (en singular) para que coincida con tu archivo
-    const res = await fetch('/data/categoria.json'); 
+    const res = await fetch('/data/categorias.json'); 
     if (!res.ok) throw new Error("No se pudieron cargar las categorías");
     return await res.json();
 };

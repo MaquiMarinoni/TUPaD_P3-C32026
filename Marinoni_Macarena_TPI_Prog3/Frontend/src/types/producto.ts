@@ -7,5 +7,5 @@ export interface Product {
     imagen: string;
     disponible: boolean;
     eliminado: boolean;
-    categoriaId: number;
+    categoriaId: number; // <- Identificador plano, como exige el F2
 }

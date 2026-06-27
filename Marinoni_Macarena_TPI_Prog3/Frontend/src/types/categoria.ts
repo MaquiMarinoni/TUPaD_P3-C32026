@@ -4,4 +4,5 @@ export interface ICategory {
     descripcion: string;
     imagen: string;
     eliminado: boolean;
+    createdAt?: string; 
 }
