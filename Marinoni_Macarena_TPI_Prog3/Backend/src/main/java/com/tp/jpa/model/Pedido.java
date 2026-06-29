@@ -40,7 +40,7 @@ public class Pedido extends Base implements Calculable {
     @Column(name = "forma_pago", nullable = false, length = 20)
     private FormaPago formaPago;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 

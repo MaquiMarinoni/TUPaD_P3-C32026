@@ -35,7 +35,7 @@ public class Producto extends Base {
     @Column(name = "disponible")
     private Boolean disponible = Boolean.TRUE;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 }
