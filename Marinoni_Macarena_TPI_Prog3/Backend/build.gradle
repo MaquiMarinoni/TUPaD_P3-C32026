@@ -27,6 +27,11 @@ dependencies {
 
     // Base de datos H2 en modo archivo
     implementation 'com.h2database:h2:2.2.224'
+    // Forzar codificación UTF-8 al ejecutar la consola
+    tasks.withType(JavaExec) {
+        systemProperty "file.encoding", "UTF-8"
+        defaultCharacterEncoding = "UTF-8"
+    }
 }
 
 application {

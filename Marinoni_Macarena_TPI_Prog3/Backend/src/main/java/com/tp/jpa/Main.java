@@ -14,6 +14,11 @@ import jakarta.persistence.TypedQuery;
 
 public class Main {
 
+    // ¡EL TRUCO! Este bloque estático se ejecuta ANTES de que arranque Hibernate
+    static {
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(java.util.logging.Level.SEVERE);
+    }
+
     private static final Scanner sc = new Scanner(System.in);
     private static final CategoriaRepository categoriaRepo = new CategoriaRepository();
     private static final ProductoRepository productoRepo = new ProductoRepository();
@@ -21,7 +26,12 @@ public class Main {
     private static final PedidoRepository pedidoRepo = new PedidoRepository();
 
     public static void main(String[] args) {
-        System.setProperty("file.encoding", "UTF-8");
+        // Forzar la salida de la consola a UTF-8 (Las tildes perfectas)
+        try {
+            System.setOut(new java.io.PrintStream(System.out, true, "UTF-8"));
+        } catch (java.io.UnsupportedEncodingException e) {
+            System.out.println("No se pudo configurar UTF-8");
+        }
 
         boolean salir = false;
         while (!salir) {
