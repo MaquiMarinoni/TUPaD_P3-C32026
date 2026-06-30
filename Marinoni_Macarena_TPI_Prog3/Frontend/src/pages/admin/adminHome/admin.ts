@@ -1,97 +1,80 @@
-import { validarSesion } from "../../../utils/authGuard";
-import { getCategorias, getProductos, getPedidos } from "../../../services/dataService";
+import { validarSesion, cerrarSesion } from "../../../utils/authGuard";
+import { getPedidos, getUsuarios } from "../../../services/dataService";
 
+// Validamos que solo entren ADMINS
 validarSesion('ADMIN');
 
-const renderizarDashboard = async () => {
-    const contentArea = document.getElementById("admin-content");
-    if (!contentArea) return;
+const btnLogout = document.getElementById("btn-logout");
+if (btnLogout) {
+    btnLogout.addEventListener("click", cerrarSesion);
+}
 
+const cargarDashboard = async () => {
     try {
-        // 1. Fetch a todos los JSON (Cumpliendo regla F5.4)
-        const categorias = await getCategorias();
-        const productos = await getProductos();
         const pedidos = await getPedidos();
+        const usuarios = await getUsuarios();
 
-        // 2. Cálculos Client-Side
-        const totalCategorias = categorias.filter(c => !c.eliminado).length;
-        const totalProductos = productos.filter(p => !p.eliminado).length;
-        const prodsDisponibles = productos.filter(p => !p.eliminado && p.disponible !== false).length;
-        const prodsInactivos = totalProductos - prodsDisponibles;
-        const totalPedidos = pedidos.length;
+        // 1. Cálculos para las Tarjetas Superiores
+        let ventasTotales = 0;
+        let pedidosCompletados = 0;
+        let pedidosPendientes = 0;
 
-        // Agrupamos los pedidos por estado
-        const pedidosPorEstado = pedidos.reduce((acc: any, p: any) => {
-            acc[p.estado] = (acc[p.estado] || 0) + 1;
-            return acc;
-        }, {});
+        pedidos.forEach(p => {
+            if (p.estado === 'ENTREGADO' || p.estado === 'CONFIRMADO' || p.estado === 'TERMINADO') {
+                ventasTotales += (p.total || 0);
+                pedidosCompletados++;
+            }
+            if (p.estado === 'PENDIENTE' || p.estado === 'EN_PREPARACION') {
+                pedidosPendientes++;
+            }
+        });
 
-        // 3. Renderizamos las 4 Tarjetas y el Panel de Resumen
-        contentArea.innerHTML = `
-            <div class="dashboard-grid">
-                <div class="dash-card bg-purple">
-                    <h3>Categorías</h3>
-                    <p style="font-size: 32px; font-weight: bold; margin: 10px 0;">${totalCategorias}</p>
-                    <button onclick="window.location.href='/src/pages/admin/categories/index.html'" class="nav-btn-dash">Gestionar</button>
-                </div>
-                <div class="dash-card bg-pink">
-                    <h3>Productos</h3>
-                    <p style="font-size: 32px; font-weight: bold; margin: 10px 0;">${totalProductos}</p>
-                    <button onclick="window.location.href='/src/pages/admin/products/index.html'" class="nav-btn-dash">Gestionar</button>
-                </div>
-                <div class="dash-card bg-cyan">
-                    <h3>Pedidos</h3>
-                    <p style="font-size: 32px; font-weight: bold; margin: 10px 0;">${totalPedidos}</p>
-                    <button onclick="window.location.href='/src/pages/admin/orders/index.html'" class="nav-btn-dash">Gestionar</button>
-                </div>
-                <div class="dash-card bg-green">
-                    <h3>Disponibles</h3>
-                    <p style="font-size: 32px; font-weight: bold; margin: 10px 0;">${prodsDisponibles}</p>
-                    <p style="font-size: 13px; margin-top:5px; font-weight:normal;">Productos listos para venta</p>
-                </div>
-            </div>
+        // Contamos los usuarios que son clientes
+        const clientesTotales = usuarios.filter(u => u.rol !== 'ADMIN').length;
 
-            <h3 style="margin-top: 40px; border-bottom: 2px solid #eee; padding-bottom: 10px;">📊 Panel de Resumen</h3>
+        // Inyectamos los números en el HTML
+        document.getElementById("total-ventas")!.innerText = `$${ventasTotales.toLocaleString('es-AR')}`;
+        document.getElementById("total-pedidos")!.innerText = pedidosCompletados.toString();
+        document.getElementById("total-pendientes")!.innerText = pedidosPendientes.toString();
+        document.getElementById("total-clientes")!.innerText = clientesTotales.toString();
+
+        // 2. Tabla de Pedidos Recientes (Los últimos 5)
+        const recentBody = document.getElementById("recent-orders-body");
+        
+        // Ordenamos por fecha (más nuevos primero)
+        const pedidosOrdenados = [...pedidos].sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
+        const ultimos5 = pedidosOrdenados.slice(0, 5);
+
+        if (ultimos5.length === 0) {
+            recentBody!.innerHTML = `<tr><td colspan="5" style="text-align: center;">No hay pedidos registrados.</td></tr>`;
+            return;
+        }
+
+        recentBody!.innerHTML = ultimos5.map(p => {
+            // Buscamos el nombre del cliente
+            const cliente = usuarios.find(u => Number(u.id) === Number(p.idUsuario));
+            const nombreCliente = cliente ? `${cliente.nombre} ${cliente.apellido}` : 'Desconocido';
             
-            <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 250px; background: white; padding: 20px; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                    <h4 style="margin-top: 0; color: #666; font-size: 18px;">Inventario</h4>
-                    <p style="margin: 10px 0; font-size: 15px;"><strong>Categorías Activas:</strong> <span style="float:right;">${totalCategorias}</span></p>
-                    <p style="margin: 10px 0; font-size: 15px;"><strong>Productos Activos:</strong> <span style="float:right; color: #2ecc71; font-weight: bold;">${prodsDisponibles}</span></p>
-                    <p style="margin: 10px 0; font-size: 15px;"><strong>Productos Inactivos:</strong> <span style="float:right; color: #e74c3c; font-weight: bold;">${prodsInactivos}</span></p>
-                </div>
-                
-                <div style="flex: 1; min-width: 250px; background: white; padding: 20px; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                    <h4 style="margin-top: 0; color: #666; font-size: 18px;">Pedidos por Estado</h4>
-                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="background: #f39c12; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">PENDIENTES</span>
-                            <strong>${pedidosPorEstado['PENDIENTE'] || 0}</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="background: #3498db; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">EN PREPARACIÓN</span>
-                            <strong>${pedidosPorEstado['EN_PREPARACION'] || 0}</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="background: #9b59b6; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">ENVIADOS</span>
-                            <strong>${pedidosPorEstado['ENVIADO'] || 0}</strong>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span style="background: #2ecc71; color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">ENTREGADOS</span>
-                            <strong>${pedidosPorEstado['ENTREGADO'] || 0}</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
+            // Asignamos la clase del badge según el estado
+            let badgeClass = 'badge-pendiente';
+            if (p.estado === 'ENTREGADO' || p.estado === 'TERMINADO') badgeClass = 'badge-entregado';
+            else if (p.estado === 'ENVIADO') badgeClass = 'badge-enviado';
+            else if (p.estado === 'EN_PREPARACION') badgeClass = 'badge-preparacion';
+
+            return `
+                <tr>
+                    <td><strong>#ORD-${p.id}</strong></td>
+                    <td>${nombreCliente}</td>
+                    <td>${p.fecha || 'N/A'}</td>
+                    <td><strong>$${p.total?.toLocaleString('es-AR')}</strong></td>
+                    <td><span class="badge ${badgeClass}">${p.estado}</span></td>
+                </tr>
+            `;
+        }).join('');
+
     } catch (error) {
-        contentArea.innerHTML = `<p style="color:red;">Error al cargar el dashboard.</p>`;
+        console.error("Error al cargar el dashboard:", error);
     }
 };
 
-document.getElementById("btn-logout")?.addEventListener("click", () => {
-    localStorage.removeItem("user");
-    window.location.href = "/src/pages/auth/login/index.html";
-});
-
-renderizarDashboard();
+cargarDashboard();

@@ -11,8 +11,15 @@ form?.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
 
     const emailStr = inputEmail.value.trim();
+    const passStr = inputPassword.value.trim();
 
-    // 1. Verificamos si el email ya existe (simulación básica)
+    // NUEVO: Validación de 6 caracteres
+    if (passStr.length < 6) {
+        alert("La contraseña debe tener al menos 6 caracteres.");
+        return;
+    }
+
+    // 1. Verificamos si el email ya existe
     const usuariosActuales = await getUsuarios();
     const existe = usuariosActuales.find(u => u.mail === emailStr || (u as any).email === emailStr);
     
@@ -27,7 +34,7 @@ form?.addEventListener("submit", async (e: SubmitEvent) => {
         apellido: inputApellido.value.trim(),
         mail: emailStr,
         celular: inputCelular.value.trim(),
-        password: inputPassword.value.trim()
+        password: passStr // Usamos la variable validada
         // El id y el rol los asigna el dataService automáticamente
     };
 

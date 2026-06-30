@@ -3,6 +3,26 @@ import { ICategory } from "./types/categoria";
 import { getLoggedUser, clearLoggedUser, addToCart, getCart } from "./utils/localStorage";
 import { getProductos, getCategorias } from "./services/dataService"; // Importamos los servicios
 
+/**
+ * LÓGICA DE LA LANDING PAGE PÚBLICA
+ */
+
+// Apenas carga la página pública, verificamos si el usuario ya tenía una sesión iniciada
+const userStr = localStorage.getItem('user');
+
+if (userStr) {
+    // Si ya está logueado, le ahorramos ver la portada y lo mandamos directo a su sector
+    const user = JSON.parse(userStr);
+    
+    if (user.rol === 'ADMIN') {
+        window.location.href = '/src/pages/admin/adminHome/index.html';
+    } else {
+        window.location.href = '/src/pages/store/home/index.html';
+    }
+}
+
+// Si no está logueado, simplemente no hace nada y se queda viendo la Landing Page hermosa.
+
 // --- 1. FUNCIÓN GLOBAL DE RENDERIZADO ---
 const renderizarProductos = (lista: Product[]) => {
     const contenedorProductos = document.getElementById("contenedor-productos");

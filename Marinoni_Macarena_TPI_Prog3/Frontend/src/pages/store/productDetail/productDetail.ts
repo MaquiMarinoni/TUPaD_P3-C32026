@@ -1,17 +1,14 @@
-import { getProductos } from "../../../services/dataService";
-import { validarSesion } from "../../../utils/authGuard";
+import { getProductos, getCategorias } from "../../../services/dataService";
 
-// Puede entrar ADMIN o CLIENT, pero trataremos el botón según rol
+// 1. Variables globales y validación de usuario actual
+const detalleContainer = document.getElementById("detalle-container") as HTMLElement;
 const userStr = localStorage.getItem("user");
-const isAdmin = userStr ? JSON.parse(userStr).rol === "ADMIN" : false;
+const user = userStr ? JSON.parse(userStr) : null;
+const isAdmin = user?.rol === "ADMIN";
 
-const container = document.getElementById("product-detail-container") as HTMLElement;
-
+// 2. Manejo del ícono del carrito en la barra superior
 const actualizarBadgeCarrito = () => {
-    if (isAdmin) {
-        document.getElementById("cart-icon-container")!.style.display = "none";
-        return;
-    }
+    if (isAdmin) return; // El admin no usa carrito
     const badge = document.getElementById("cart-count");
     if (!badge) return;
     const carrito = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -19,114 +16,104 @@ const actualizarBadgeCarrito = () => {
     badge.innerText = cantidadTotal.toString();
 };
 
+// 3. Renderizar la tarjeta del producto
 const renderizarDetalle = async () => {
-    // Obtenemos el ID de la URL (?id=X)
-    const urlParams = new URLSearchParams(window.location.search);
-    const idParam = urlParams.get('id');
+    // Obtenemos el ID de la URL (ej: localhost:5173/.../index.html?id=5)
+    const params = new URLSearchParams(window.location.search);
+    const productoId = Number(params.get("id"));
 
-    if (!idParam) {
-        container.innerHTML = `<p style="color:red;">Error: No se especificó un producto.</p>`;
+    if (!productoId) {
+        detalleContainer.innerHTML = `<h2 style="text-align:center; color:#e74c3c;">Error: No se seleccionó ningún producto.</h2>`;
         return;
     }
 
     const productos = await getProductos();
-    const producto = productos.find(p => p.id === Number(idParam));
+    const categorias = await getCategorias();
+
+    // Buscamos el producto asegurándonos de que no esté eliminado lógicamente
+    const producto = productos.find(p => p.id === productoId && p.eliminado !== true);
 
     if (!producto) {
-        container.innerHTML = `<div style="text-align:center; width:100%;">
-            <h2>Producto no encontrado</h2>
-            <a href="/src/pages/store/home/index.html" class="btn-primary">Volver al catálogo</a>
+        detalleContainer.innerHTML = `<div style="text-align:center; padding: 50px;">
+            <h2>El producto no existe o fue eliminado.</h2>
+            <a href="/src/pages/store/home/index.html" style="color: var(--orange-primary);">Volver al catálogo</a>
         </div>`;
         return;
     }
 
-    const estaDisponible = producto.disponible !== false && producto.stock > 0;
-    const estadoTexto = estaDisponible 
-        ? `<span class="badge-success" style="background:#2ecc71; color:white; padding:5px 10px; border-radius:4px;">Disponible (${producto.stock} en stock)</span>` 
-        : `<span class="badge-danger" style="background:#e74c3c; color:white; padding:5px 10px; border-radius:4px;">Agotado / No disponible</span>`;
+    // Buscamos su categoría para mostrar la etiqueta
+    const categoria = categorias.find(c => c.id === Number(producto.categoriaId));
+    const nombreCat = categoria ? categoria.nombre : "General";
+    
+    const stockReal = producto.stock || 0;
+    const tieneStock = stockReal > 0 && producto.disponible !== false;
 
-    // Lógica del bloque de compra (solo para clientes y si hay stock)
-    let bloqueCompra = "";
+    // LÓGICA DE BOTONES: ¿Qué mostramos según quién mira la pantalla?
+    let botonHTML = "";
     if (isAdmin) {
-        bloqueCompra = `<p style="color: var(--orange-primary); font-weight: bold;">[Modo Administrador - Compras Deshabilitadas]</p>`;
-    } else if (estaDisponible) {
-        bloqueCompra = `
-            <div style="display: flex; align-items: center; gap: 15px; margin-top: 20px;">
-                <label style="font-weight:bold;">Cantidad:</label>
-                <input type="number" id="input-qty" value="1" min="1" max="${producto.stock}" style="width: 70px; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;">
-                <button id="btn-add-cart" class="btn-primary" style="padding: 12px 25px; font-size: 16px;">
-                    🛒 Agregar al Carrito
-                </button>
-            </div>
-            <p id="msg-confirm" style="color: #2ecc71; font-weight: bold; margin-top: 10px; display: none;">¡Producto agregado exitosamente!</p>
-        `;
+        botonHTML = `<p style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; text-align: center; font-weight: bold; margin: 0;">Modo Administrador: No puedes comprar.</p>`;
+    } else if (!user) {
+        botonHTML = `<a href="/src/pages/auth/login/index.html" class="btn-agregar">Iniciá sesión para comprar</a>`;
+    } else if (!tieneStock) {
+        botonHTML = `<button class="btn-agregar" disabled>Agotado / Sin Stock</button>`;
     } else {
-        bloqueCompra = `<button class="btn-primary" disabled style="background:#ccc; cursor:not-allowed; margin-top:20px;">Sin Stock</button>`;
+        botonHTML = `<button id="btn-add-cart" class="btn-agregar">Agregar al Carrito</button>`;
     }
 
-    container.innerHTML = `
-        <div style="flex: 1;">
-            <img src="/src/data/assets/${producto.imagen}" alt="${producto.nombre}" style="width: 100%; border-radius: 12px; object-fit: cover;" onerror="this.src='/src/data/assets/napo.jpg'">
-        </div>
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
-            <h1 style="margin-top: 0;">${producto.nombre}</h1>
-            <div style="margin-bottom: 20px;">${estadoTexto}</div>
-            <p style="font-size: 18px; color: #555; line-height: 1.6;">${producto.descripcion || 'Este producto no cuenta con descripción detallada en este momento.'}</p>
-            <h2 style="color: var(--orange-primary); font-size: 32px; margin: 20px 0;">$${producto.precio.toLocaleString('es-AR')}</h2>
-            
-            ${bloqueCompra}
-
-            <div style="margin-top: 40px;">
-                <a href="/src/pages/store/home/index.html" style="color: #666; text-decoration: none; font-weight: bold;">
-                    <i class="fas fa-arrow-left"></i> Volver al Catálogo
-                </a>
+    // Inyectamos el diseño en el HTML
+    detalleContainer.innerHTML = `
+        <div class="detail-card">
+            <div class="detail-img-wrapper">
+                <img src="/src/data/assets/${producto.imagen}" alt="${producto.nombre}" onerror="this.src='/src/data/assets/napo.jpg'">
+            </div>
+            <div class="detail-info">
+                <span class="badge-cat">${nombreCat}</span>
+                <h1 class="detail-title">${producto.nombre}</h1>
+                <p class="detail-desc">${producto.descripcion || 'Sin descripción detallada.'}</p>
+                <p class="detail-price">$${producto.precio.toLocaleString('es-AR')}</p>
+                <p class="detail-stock">${tieneStock ? `Stock disponible: ${stockReal} unidades` : '<span style="color:#e74c3c; font-weight:bold;">Sin unidades disponibles</span>'}</p>
+                ${botonHTML}
             </div>
         </div>
     `;
 
-    // Funcionalidad de agregar al carrito (con validación de stock final)
-    if (!isAdmin && estaDisponible) {
+    // 4. Asignar el evento de "Agregar al carrito" si corresponde
+    if (user && !isAdmin && tieneStock) {
         document.getElementById("btn-add-cart")?.addEventListener("click", () => {
-            const qtyInput = document.getElementById("input-qty") as HTMLInputElement;
-            let qty = parseInt(qtyInput.value);
-            
-            // Validación: No superar stock
-            if (qty > producto.stock) {
-                alert(`No puedes agregar más de ${producto.stock} unidades.`);
-                qtyInput.value = producto.stock.toString();
-                return;
-            }
-            if (qty < 1) qty = 1;
-
             const cart = JSON.parse(localStorage.getItem("cart") || "[]");
             const itemExistente = cart.find((item: any) => item.id === producto.id);
 
+            // Verificamos no pasarnos del stock
             if (itemExistente) {
-                if ((itemExistente.cantidad + qty) > producto.stock) {
-                    alert(`Solo quedan ${producto.stock} unidades en stock. Ya tienes ${itemExistente.cantidad} en tu carrito.`);
+                if (itemExistente.cantidad < stockReal) {
+                    itemExistente.cantidad++;
+                } else {
+                    alert(`¡Stock máximo alcanzado! Solo quedan ${stockReal} unidades.`);
                     return;
                 }
-                itemExistente.cantidad += qty;
             } else {
-                cart.push({ ...producto, cantidad: qty });
+                cart.push({ ...producto, cantidad: 1 });
             }
 
             localStorage.setItem("cart", JSON.stringify(cart));
             actualizarBadgeCarrito();
-
-            // Mensaje de confirmación temporal
-            const msgConfirm = document.getElementById("msg-confirm") as HTMLElement;
-            msgConfirm.style.display = "block";
-            setTimeout(() => msgConfirm.style.display = "none", 3000);
+            alert(`¡Agregaste "${producto.nombre}" a tu carrito! 🛒`);
         });
     }
 };
 
-document.getElementById("link-logout")?.addEventListener("click", (e) => {
-    e.preventDefault();
-    localStorage.removeItem("user");
-    window.location.href = "/src/pages/auth/login/index.html";
-});
+// --- INICIALIZACIÓN ---
+const init = () => {
+    // Configuramos la barra superior según el usuario
+    if (user) {
+        if (isAdmin) {
+            document.getElementById("link-carrito")!.style.display = "none";
+        } else {
+            document.getElementById("link-mis-pedidos")!.style.display = "inline-block";
+            actualizarBadgeCarrito();
+        }
+    }
+    renderizarDetalle();
+};
 
-actualizarBadgeCarrito();
-renderizarDetalle();
+init();

@@ -2,31 +2,131 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Food Store - Admin Dashboard</title>
-    <link rel="stylesheet" href="../../../css/styles.css"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Store - Dashboard Admin</title>
+    <link rel="stylesheet" href="../../../css/styles.css">
+    <style>
+        /* Ajustes específicos para el nuevo Dashboard */
+        .admin-page { display: flex; min-height: 100vh; background-color: #f8f9fc; }
+        
+        /* Panel Lateral Claro acorde a la paleta */
+        .sidebar-light { 
+            width: 250px; 
+            background: #ffffff; 
+            border-right: 1px solid #eaecf4; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 2px 0 15px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+        .sidebar-light .logo { padding: 25px; font-size: 24px; color: var(--orange-primary, #e67e22); text-align: center; border-bottom: 1px solid #eaecf4; margin-bottom: 15px; }
+        .sidebar-light .nav-btn { display: block; padding: 15px 25px; color: #5a5c69; text-decoration: none; font-weight: bold; transition: all 0.3s; }
+        .sidebar-light .nav-btn:hover { background: #f8f9fa; color: var(--orange-primary, #e67e22); padding-left: 30px; }
+        .sidebar-light .nav-btn.active { color: var(--orange-primary, #e67e22); border-left: 4px solid var(--orange-primary, #e67e22); background: #fff8f3; }
+        
+        /* Contenido Principal */
+        .main-content { flex: 1; display: flex; flex-direction: column; }
+        .top-header { background: #ffffff; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.03); z-index: 5; }
+        .top-header h2 { margin: 0; color: #5a5c69; font-size: 1.5rem; }
+        
+        /* Grilla de Tarjetas (Como en tu imagen) */
+        .dashboard-container { padding: 30px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        
+        .stat-card { background: #ffffff; border-radius: 10px; padding: 25px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.05); border-left: 5px solid var(--orange-primary, #e67e22); transition: transform 0.2s; }
+        .stat-card:hover { transform: translateY(-3px); }
+        .stat-card.blue { border-left-color: #4e73df; }
+        .stat-card.green { border-left-color: #1cc88a; }
+        .stat-card.yellow { border-left-color: #f6c23e; }
+        
+        .stat-info h4 { margin: 0; font-size: 0.85rem; color: #858796; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .stat-info h2 { margin: 0; font-size: 1.8rem; color: #5a5c69; font-weight: bold; }
+        .stat-icon { font-size: 2.5rem; color: #dddfeb; }
+
+        /* Tabla de Pedidos Recientes */
+        .recent-section { background: #ffffff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden; }
+        .recent-header { padding: 20px; border-bottom: 1px solid #eaecf4; background: #f8f9fc; }
+        .recent-header h3 { margin: 0; color: #4e73df; font-size: 1.1rem; }
+        .recent-table { width: 100%; border-collapse: collapse; }
+        .recent-table th, .recent-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid #eaecf4; color: #5a5c69; }
+        .recent-table th { background: #ffffff; font-weight: bold; color: #858796; text-transform: uppercase; font-size: 0.85rem; }
+        .recent-table tbody tr:hover { background: #f8f9fc; }
+        
+        .badge { padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; color: white; }
+        .badge-pendiente { background: #f6c23e; }
+        .badge-entregado { background: #1cc88a; }
+        .badge-enviado { background: #36b9cc; }
+        .badge-preparacion { background: #4e73df; }
+    </style>
 </head>
 <body class="admin-page">
-    <aside class="sidebar">
+
+    <aside class="sidebar-light">
         <div class="logo">Food<strong>Store</strong></div>
         <nav>
-            <a href="/src/pages/admin/adminHome/index.html" class="nav-btn active"><i class="fas fa-chart-line"></i> Dashboard</a>
-            <a href="/src/pages/admin/products/index.html" class="nav-btn"><i class="fas fa-box"></i> Productos</a>
-            <a href="/src/pages/admin/categories/index.html" class="nav-btn"><i class="fas fa-tags"></i> Categorías</a>
-            <a href="/src/pages/admin/orders/index.html" class="nav-btn"><i class="fas fa-shopping-cart"></i> Pedidos</a>
-            <hr>
-            <a href="/src/pages/store/home/index.html" class="nav-btn"><i class="fas fa-store"></i> Ver Tienda</a>
+            <a href="/src/pages/admin/adminHome/index.html" class="nav-btn active">Dashboard</a>
+            <a href="/src/pages/admin/products/index.html" class="nav-btn">Productos</a>
+            <a href="/src/pages/admin/categories/index.html" class="nav-btn">Categorías</a>
+            <a href="/src/pages/admin/orders/index.html" class="nav-btn">Pedidos</a>
+            <hr style="border: 0; border-top: 1px solid #eaecf4; margin: 15px 0;">
+            <a href="/src/pages/store/home/index.html" class="nav-btn">Ver Tienda</a>
         </nav>
     </aside>
 
-    <main class="content">
-        <header class="admin-header">
-            <h1 id="view-title">Dashboard de Administración</h1>
-            <button id="btn-logout" class="btn-logout">Salir</button>
+    <main class="main-content">
+        <header class="top-header">
+            <h2>Panel de Control</h2>
+            <button id="btn-logout" class="btn-danger" style="border-radius: 20px; padding: 8px 20px;">Cerrar Sesión</button>
         </header>
         
-        <section id="admin-content" style="padding-top: 20px;">
-            <p>Cargando estadísticas...</p>
-        </section>
+        <div class="dashboard-container">
+            <div class="cards-grid">
+                <div class="stat-card blue">
+                    <div class="stat-info">
+                        <h4 style="color: #4e73df;">Ventas Totales</h4>
+                        <h2 id="total-ventas">$0</h2>
+                    </div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-info">
+                        <h4 style="color: #1cc88a;">Pedidos Completados</h4>
+                        <h2 id="total-pedidos">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card yellow">
+                    <div class="stat-info">
+                        <h4 style="color: #f6c23e;">Pedidos Pendientes</h4>
+                        <h2 id="total-pendientes">0</h2>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <h4 style="color: var(--orange-primary);">Clientes Registrados</h4>
+                        <h2 id="total-clientes">0</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-section">
+                <div class="recent-header">
+                    <h3>Últimos Pedidos Ingresados</h3>
+                </div>
+                <table class="recent-table">
+                    <thead>
+                        <tr>
+                            <th>Nº Pedido</th>
+                            <th>Cliente</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-orders-body">
+                        <tr><td colspan="5" style="text-align: center;">Cargando pedidos...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <script type="module" src="./admin.ts"></script>
