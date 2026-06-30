@@ -1,31 +1,32 @@
-# Food Store - Primer Parcial Programación III
+# Food Store - Frontend Web
 
-## Descripción del Proyecto
-Este proyecto es una evolución de la aplicación "Food Store", desarrollada para consolidar conocimientos en HTML, CSS, JavaScript y TypeScript. Se implementó un catálogo dinámico de productos con funcionalidades de búsqueda y filtrado por categorías, junto con un sistema de carrito de compras que utiliza persistencia de datos mediante LocalStorage.
+Este proyecto corresponde a la **Parte 1 (Frontend)** del Trabajo Práctico Integrador de Programación III. 
+Consiste en una aplicación web tipo E-commerce para la gestión y realización de pedidos de comida, construida con Vanilla TypeScript y Vite.
 
-## Funcionalidades Implementadas
-- **Autenticación:** Sistema de Login y Registro de usuarios con validación de roles (Client/Admin).
-- **Catálogo Dinámico:** Renderizado de productos desde una base de datos local (`data.ts`).
-- **Búsqueda en tiempo real:** Filtrado de productos por nombre mediante una barra de búsqueda.
-- **Filtrado por categorías:** Menú lateral funcional para navegar entre los distintos tipos de comida.
-- **Carrito de compras:** - Adición de productos con actualización de cantidades.
-  - Visualización detallada de ítems, subtotales y total general.
-  - Persistencia de datos mediante LocalStorage.
-  - Vaciado completo del carrito.
-- **Interfaz Responsiva:** Diseño adaptado para diferentes tamaños de pantalla utilizando CSS3.
+## Alumno
+* **Nombre y Apellido:** Macarena Marinoni
+* **DNI:** 38374424
+* **Comisión:** C15-2026
 
-## Instrucciones para ejecutar el proyecto
-1. **Requisitos previos:** Asegúrese de tener instalado [Node.js](https://nodejs.org/) y un gestor de paquetes (npm o pnpm).
-2. **Instalación de dependencias:** Ejecute el comando `npm install` o `pnpm install` en la terminal parada en la raíz del proyecto.
-3. **Levantar el servidor de desarrollo:**
-   Ejecute `npm run dev` o `pnpm dev`.
-4. **Acceso a la app:**
-   Abra su navegador en la dirección `http://localhost:5173` (o la que indique su terminal).
+## Tecnologías Utilizadas
+* **Lenguaje:** TypeScript / HTML5 / CSS3
+* **Bundler:** Vite
+* **Almacenamiento:** LocalStorage (Simulación de persistencia)
+* **Datos:** Fetch a archivos `.json` locales (simulando una API REST)
 
----
-**Desarrollado por:** Macarena Marinoni  
-**Materia:** Programación III - Tecnicatura Universitaria en Programación (UTN)
-**LINK video**: https://www.youtube.com/watch?v=TF4HSBjuQXk
-## Notas de la Iteración Actual (Frontend)
-- **Costo de Envío:** Según los requerimientos del Hito F5, el costo de envío se ha implementado como una constante fija en el Frontend. El valor definido es de **$2.500 ARS** y se aplica automáticamente en el resumen del carrito y en el total del pedido al finalizar la compra.
-- **Persistencia Temporal:** Hasta la futura conexión con el Backend en Java/Spring Boot, la creación de nuevos pedidos, categorías y productos se simula utilizando `localStorage` en conjunto con la lectura de los archivos estáticos `.json`.
+## Características y Funcionalidades
+* **Autenticación (AuthGuard):** Login y Registro con validación de roles (`ADMIN` y `CLIENT`).
+* **Landing Page Pública:** Vidriera de acceso al sitio.
+* **Flujo de Cliente:** Catálogo de productos con filtros combinados (categoría, búsqueda de texto y ordenamiento), carrito de compras reactivo y checkout. Historial de "Mis Pedidos".
+* **Flujo de Administrador:** Dashboard analítico, y simulación de CRUD en memoria para Categorías, Productos y cambio de estado en los Pedidos.
+
+## Instrucciones de Ejecución
+Para correr este proyecto en un entorno local:
+
+1. Tener **Node.js** instalado.
+2. Abrir una terminal en la carpeta raíz del frontend.
+3. Instalar las dependencias:
+   npm install
+4. Iniciar el servidor de desarrollo:
+   npm run dev
+5. Abrir enlace proporcionado en la consola (usualmente http://localhost:5173/).
