@@ -1,116 +1,35 @@
-# Food Store JPA — Plantilla TPI (Parte 2)
+#  Food Store - Backend JPA & Consola
 
-Este README corresponde a la plantilla base para el desarrollo del TPI — Parte 2 (Backend JPA + Consola).
+Este proyecto corresponde a la **Parte 2 (Backend)** del Trabajo Práctico Integrador de Programación III.
+Es una aplicación Java de consola que implementa la capa de persistencia y lógica de negocio del sistema utilizando JPA, Hibernate y una base de datos embebida H2.
 
----
+## Alumno
+* **Nombre y Apellido:** Macarena Marinoni
+* **DNI:** 38374424
+* **Comisión:** C15-2026
 
-## Tecnologías
+## Stack Tecnológico
+* **Lenguaje:** Java 17 (o superior)
+* **Gestor de Dependencias:** Gradle
+* **ORM:** JPA / Hibernate 6.x
+* **Base de Datos:** H2 Database (Modo archivo: `./data/jpa_db`)
+* **Librerías Extra:** Lombok
 
-- Java 21
-- JPA / Hibernate 6
-- H2 (base de datos en archivo — `./data/jpa_db`)
-- Lombok
-- Gradle 8
+## Características Implementadas
+* **Modelado de Entidades:** Relaciones de base de datos (`@OneToMany`, `@ManyToOne`) para `Usuario`, `Pedido`, `DetallePedido`, `Producto` y `Categoria`.
+* **Bajas Lógicas (Soft Delete):** Implementación de borrado lógico en todas las entidades del sistema en lugar de borrado físico.
+* **Consultas JPQL:** Repositorios fuertemente tipados con métodos personalizados para filtrar datos.
+* **Transacciones Atómicas:** El alta de pedidos se ejecuta bajo una única transacción de `EntityManager`. Si falla la validación de stock o la persistencia, se aplica un *Rollback* automático.
+* **Menú Interactivo:** Interfaz de consola completa para la gestión de ABM y Reportes analíticos.
 
----
+##  Instrucciones de Ejecución
+Para probar la aplicación:
 
-## Estructura del proyecto
-
-```
-src/main/java/com/tp/jpa/
-│
-├── model/                        # Entidades JPA (NO modificar)
-│   ├── Base.java                 # Clase abstracta base (id, eliminado, createdAt)
-│   ├── Calculable.java           # Interfaz con calcularTotal()
-│   ├── Categoria.java
-│   ├── Producto.java
-│   ├── Usuario.java
-│   ├── Pedido.java
-│   ├── DetallePedido.java
-│   └── enums/
-│       ├── Rol.java
-│       ├── Estado.java
-│       └── FormaPago.java
-│
-├── util/
-│   └── JPAUtil.java              # Factory singleton (NO modificar — ya implementado)
-│
-├── repository/                   # ★ COMPLETAR — queries personalizadas
-│   ├── BaseRepository.java       # CRUD genérico (NO modificar — ya implementado)
-│   ├── CategoriaRepository.java  # Sin queries extra (NO modificar)
-│   ├── ProductoRepository.java   # ★ Implementar buscarPorCategoria()
-│   ├── UsuarioRepository.java    # ★ Implementar buscarPorMail()
-│   └── PedidoRepository.java     # ★ Implementar buscarPorUsuario() y buscarPorEstado()
-│
-└── Main.java                     # ★ COMPLETAR — menús de consola
-```
+1. Abrir la carpeta del backend en **IntelliJ IDEA** (con Gradle).
+2. Esperar a que Gradle sincronice y descargue las dependencias (Hibernate, H2, Lombok).
+3. Dirígirse a la ruta `src/main/java/com/tp/jpa/Main.java`.
+4. Ejecutar el método `main`.
+5. Interactuar con el sistema utilizando las opciones numéricas que aparecerán en la consola inferior.
 
 ---
-
-## Qué está implementado
-
-| Componente | Estado |
-|---|---|
-| `JPAUtil` | ✅ Completo |
-| `BaseRepository` (guardar, buscarPorId, listarActivos, eliminarLogico) | ✅ Completo |
-| `CategoriaRepository` | ✅ Completo (hereda todo de Base) |
-| Modelo completo (todas las entidades y enums) | ✅ Completo |
-| `Main` — estructura del menú principal | ✅ Esqueleto listo |
-
----
-
-## Qué hay que implementar
-
-### Repositorios
-
-| Clase | Método | Descripción |
-|---|---|---|
-| `ProductoRepository` | `buscarPorCategoria(Long categoriaId)` | JPQL filtrando por categoría y `eliminado = false` |
-| `UsuarioRepository` | `buscarPorMail(String mail)` | JPQL filtrando por mail y `eliminado = false`, retorna `Optional<Usuario>` |
-| `PedidoRepository` | `buscarPorUsuario(Long idUsuario)` | JPQL filtrando por usuario y `eliminado = false` |
-| `PedidoRepository` | `buscarPorEstado(Estado estado)` | JPQL filtrando por estado y `eliminado = false` |
-
-### Menú de consola (`Main.java`)
-
-| Método | Descripción |
-|---|---|
-| `menuCategorias()` | Alta, modificar, baja lógica, listado |
-| `menuProductos()` | Alta (con selección de categoría), modificar, baja lógica, listado |
-| `menuUsuarios()` | Alta (mail único), modificar, baja lógica, listado, buscar por mail |
-| `menuPedidos()` | Alta (transacción atómica), cambiar estado, baja lógica, listados |
-| `menuReportes()` | Productos por categoría, pedidos por usuario/estado, total facturado |
-
----
-
-## Cómo ejecutar
-
-```bash
-./gradlew run
-```
-
-O compilar y ejecutar el JAR:
-
-```bash
-./gradlew jar
-java -jar build/libs/foodstore-jpa-0.0.1-SNAPSHOT.jar
-```
-
-La base de datos H2 se crea automáticamente en `./data/jpa_db.mv.db` al primer arranque.
-
----
-
-## Credenciales / datos de prueba
-
-No hay carga inicial automática. Crear los datos desde el menú de consola en este orden:
-
-1. Categorías
-2. Productos (requieren categoría existente)
-3. Usuarios
-4. Pedidos (requieren usuario y productos existentes)
-
----
-
-## Entrega
-
-- **Video demostrativo:** [link aquí]
-- **Informe PDF:** [link aquí]
+**Nota:** El sistema generará automáticamente la base de datos en la carpeta `/data` utilizando la configuración `hibernate.hbm2ddl.auto = update`.
